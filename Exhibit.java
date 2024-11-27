@@ -23,18 +23,20 @@ public class Exhibit {
 		
 	    for (int i = 0; i < artifacts.size(); i++) {
 	        Artifact artifact = artifacts.get(i);
-	        
 	        result += "\n       Name: " + artifact.getName() + ", Time: " + artifact.getEngagementTime() + ", Sign: " + signs.get(i);
 	    }
 	    return result;
 	}
+	
 	public String toString() {
 		return getDetails();
 	}
+	
     public void addArtifact(Artifact artifact, String signText) {
         artifacts.add(artifact);
         signs.add(signText);
     }
+    
     public int getTotalTime() {
     	int totalTime = 0;
 		for (int i = 0; i < artifacts.size(); i++) {
@@ -42,6 +44,14 @@ public class Exhibit {
 	        totalTime += artifact.getEngagementTime();
 	    }
 		return totalTime;
+    }
+    
+    public ArrayList<Artifact> getArtifacts() {
+        return artifacts;
+    }
+
+    public ArrayList<String> getArtifactSigns() {
+        return signs;
     }
 	
 	// SETTERS

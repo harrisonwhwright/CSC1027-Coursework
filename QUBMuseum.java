@@ -1,3 +1,8 @@
+// change all toUpperCase() to equalsIgnoreCase()
+//appendNewArtifactInExhibit() {
+//insertNewArtifactInExhibit() {
+//manageAnnualSchedule() {
+
 package part01;
 
 import java.util.Scanner;
@@ -590,7 +595,7 @@ public class QUBMuseum {
 				int idExhibit = i;
 				System.out.println(exhibits.get(i));
 				
-				Menu exhibitUpdateMenu = new Menu ("Update Exhibit", Resources.exhibitUpdate);
+				Menu exhibitUpdateMenu = new Menu ("\nUpdate Exhibit", Resources.exhibitUpdate);
 
 				int choice = 0;
 				boolean quit = false;
@@ -631,15 +636,39 @@ public class QUBMuseum {
 	}
 	
 	private static void changeExhibitName(int idExhibit) {
-		System.out.println("Change Exhibit Name");
+		System.out.println("Change Exhibit Name, Currently: " + exhibits.get(idExhibit).getName());
 		System.out.println("Enter New Exhibit Name: ");
 		String name = scanner.nextLine();
-		artifacts.get(idExhibit).setName(name);
+		exhibits.get(idExhibit).setName(name);
 	}
 	
 	private static void changeArtifactSignInExhibit(int idExhibit) {
-		System.out.println("Change Artifact Sign");
-		System.out.println(exhibits.get(idExhibit));
+	    System.out.println("Change Artifact Sign");
+	    System.out.println(exhibits.get(idExhibit));
+
+	    System.out.print("Enter Artifact Name to Update its Sign: ");
+	    String userInput = scanner.nextLine();
+
+	    boolean found = false;
+	    for (int i = 0; i < exhibits.get(idExhibit).getArtifacts().size(); i++) {
+	        Artifact artifact = exhibits.get(idExhibit).getArtifacts().get(i);
+
+	        if (artifact.getName().equalsIgnoreCase(userInput)) {
+	            found = true;
+
+	            System.out.print("Enter the New Sign for this Artifact: ");
+	            String newSign = scanner.nextLine();
+
+	            exhibits.get(idExhibit).getArtifactSigns().set(i, newSign);
+
+	            System.out.println("Successfully updated the sign for artifact: " + artifact.getName());
+	            break;
+	        }
+	    }
+
+	    if (!found) {
+	        System.out.println("No Artifact within this Exhibit Found with Name: " + userInput + "\n");
+	    }
 	}
 	
 	private static void appendNewArtifactInExhibit() {
@@ -650,8 +679,31 @@ public class QUBMuseum {
 		System.out.println("Inset New Artifact");
 	}
 	
-	private static void deleteArtifactInExhibit() {
-		System.out.println("Delete Artifact from Exhibit");
+	private static void deleteArtifactInExhibit(int idExhibit) {
+	    System.out.println("Delete Artifact from Exhibit");
+	    System.out.println(exhibits.get(idExhibit));
+
+	    System.out.print("Enter Artifact Name to Delete: ");
+	    String userInput = scanner.nextLine();
+
+	    boolean found = false;
+	    for (int i = 0; i < exhibits.get(idExhibit).getArtifacts().size(); i++) {
+	        Artifact artifact = exhibits.get(idExhibit).getArtifacts().get(i);
+
+	        if (artifact.getName().equalsIgnoreCase(userInput)) {
+	            found = true;
+
+	            exhibits.get(idExhibit).getArtifacts().remove(i);
+	            exhibits.get(idExhibit).getArtifactSigns().remove(i);
+
+	            System.out.println("Successfully deleted the artifact: " + artifact.getName());
+	            break;
+	        }
+	    }
+
+	    if (!found) {
+	        System.out.println("No Artifact within this Exhibit Found with Name: " + userInput + "\n");
+	    }
 	}
 	
 	private static void manageAnnualSchedule() {
