@@ -142,6 +142,7 @@ public class QUBMuseum {
 		System.out.println("Successfully Added Artifact");
 		System.out.println();
 	}
+	
 	private static void viewArtifacts() { 
 	    System.out.println();
 	    
@@ -220,7 +221,7 @@ public class QUBMuseum {
 	}
 	
 	private static void viewArtifactByName() {
-		System.out.println("\nEnter Name of Artifacts you want to see:"); 
+		System.out.println("\nEnter Name of the Artifacts you want to see:"); 
 		String userInput = scanner.nextLine();
 		
 		boolean found = false;
@@ -360,7 +361,6 @@ public class QUBMuseum {
 	
 	private static boolean processExhibitChoice (int choice) {
 		boolean quit = false;
-		// "Add Exhibit", "View Exhibit", "Delete Exhibit", "Update Exhibit", "Back"
 		switch (choice) {
 		case 1:
 			addExhibit();
@@ -422,17 +422,133 @@ public class QUBMuseum {
 		}
 	}
 	private static void viewExhibit() {
-		for (int i = 0; i < exhibits.size(); i++) {
-			System.out.println(exhibits.get(i));
-		}
 		System.out.println();
-		// print it in alphabetical order
-		// search by id
-		// search by name
-		// search by part name
-		// search by length
-		// search by engagement time
+		
+		if (exhibits.size() == 0) {
+			System.out.println("View Exhibits\nExhibits list is empty");
+			System.out.println();
+			return;
+		}
+		
+		for (int i = 0; i < exhibits.size() - 1; i++) {
+	        for (int j = 0; j < exhibits.size() - 1 - i; j++) {
+	            if (exhibits.get(j).getName().compareTo(exhibits.get(j + 1).getName()) > 0) {
+	                Exhibit temp = exhibits.get(j);
+	                exhibits.set(j, exhibits.get(j + 1));
+	                exhibits.set(j + 1, temp);
+	            }
+	        }
+	    }
+		
+	    for (int i = 0; i < exhibits.size(); i++) {
+	        System.out.println(exhibits.get(i));
+	    }
+	    
+	    System.out.println("\nDo you want to search Exhibits? (Yes/No)");
+	    String userInput = scanner.nextLine();
+	    if (userInput.equalsIgnoreCase("YES")) {
+	    	Menu viewExhibitChoice = new Menu ("Search Exhibits", Resources.exhibitCriteria);
+			
+			int choice = 0;
+			boolean quit = false;
+			
+			do {
+				choice = viewExhibitChoice.getUserChoice();
+				quit = processViewExhibitChoice(choice);
+			} while (!quit);
+	    }
 	}
+	
+	private static boolean processViewExhibitChoice (int choice) {
+		boolean quit = false;
+		switch (choice) {
+		case 1:
+			viewExhibitById();
+			break;
+		case 2:
+			viewExhibitByName();
+			break;
+		case 3:
+			viewExhibitByPartName();
+			break;
+		case 4:
+			viewExhibitByEngagementTime();
+			break;
+		case 5:
+			quit = true;
+		}
+	return quit;
+	}
+	
+	private static void viewExhibitById() {
+		System.out.println("\nEnter ID of Exhibit you want to see: ");
+		int userInput = scanner.nextInt();
+		scanner.nextLine();
+		
+		boolean found = false;
+		for (int i = 0; i < exhibits.size(); i++) {
+			if (exhibits.get(i).getId() == userInput) {
+				System.out.println(exhibits.get(i));
+				found = true;
+				System.out.println();
+			}
+		}
+		if (!found) {
+			System.out.println("No Exhibit Found with ID " + userInput +"\n");
+		}
+	}
+	
+	private static void viewExhibitByName() {
+		System.out.println("\nEnter Name of Exhibit you want to see:"); 
+		String userInput = scanner.nextLine();
+		
+		boolean found = false;
+		for (int i = 0; i < exhibits.size(); i++) {
+			if (exhibits.get(i).getName().equalsIgnoreCase(userInput)) {
+				System.out.println(exhibits.get(i));
+				found = true;
+			}
+		}
+	    if (!found) {
+	        System.out.println("No Exhibit Found with Name: " + userInput + "\n");
+	    }
+		System.out.println();
+	}
+	
+	private static void viewExhibitByPartName() {
+		System.out.println("\nEnter Partially the Name of the Exhibit you want to see:"); 
+		String userInput = scanner.nextLine();
+		
+		boolean found = false;
+		for (int i = 0; i < exhibits.size(); i++) {
+			if (exhibits.get(i).getName().toUpperCase().contains(userInput.toUpperCase())) {
+				System.out.println(exhibits.get(i));
+				found = true;
+			}
+		}
+	    if (!found) {
+	        System.out.println("No Exhibits Found with Name: " + userInput + "\n");
+	    }
+		System.out.println();
+	}
+	
+	private static void viewExhibitByEngagementTime() {
+		System.out.println("\nEnter the Engagement Time of the Exhibit you want to see:"); 
+		int userInput = scanner.nextInt();
+		
+		boolean found = false;
+		for (int i = 0; i < exhibits.size(); i++) {
+			if (exhibits.get(i).getTotalTime() == userInput) {
+				System.out.println(exhibits.get(i));
+				found = true;
+			}
+		}
+	    if (!found) {
+	        System.out.println("No Exhibits Found with Engagement Time of: " + userInput + "\n");
+	    }
+		System.out.println();
+	}
+	
 	private static void deleteExhibit() {
 		System.out.println();
 		System.out.println("Delete Exhibits");
@@ -471,21 +587,74 @@ public class QUBMuseum {
 		for (int i = 0; i < exhibits.size(); i++) {
 			if (userInput == exhibits.get(i).getId()) {
 				found = true;
+				int idExhibit = i;
 				System.out.println(exhibits.get(i));
 				
-				// what do you want to change
-				// change name
-				// or change artifact details
-					// change artifact sign
-					// append new artifact/sign
-					// insert new artifact/sign
-					// delete artifact/sign
-					
+				Menu exhibitUpdateMenu = new Menu ("Update Exhibit", Resources.exhibitUpdate);
+
+				int choice = 0;
+				boolean quit = false;
+				
+				do {
+					choice = exhibitUpdateMenu.getUserChoice();
+					quit = processExhibitUpdateMenu(choice, idExhibit);
+				} while (!quit);
 			}
+		}
+		if (!found) {
+			System.out.println("No Exhibit Found with ID: " + userInput);
 		}
 	}
 	
+	private static boolean processExhibitUpdateMenu (int choice, int idExhibit) {
+		boolean quit = false;
+		switch (choice) {
+		case 1:
+			changeExhibitName(idExhibit);
+			break;
+		case 2:
+			changeArtifactSignInExhibit(idExhibit);
+			break;
+		case 3:
+			appendNewArtifactInExhibit();
+			break;
+		case 4:
+			insertNewArtifactInExhibit();
+			break;
+		case 5:
+			deleteArtifactInExhibit();
+			break;
+		case 6:
+			quit = true;
+		}
+		return quit;
+	}
+	
+	private static void changeExhibitName(int idExhibit) {
+		System.out.println("Change Exhibit Name");
+		System.out.println("Enter New Exhibit Name: ");
+		String name = scanner.nextLine();
+		artifacts.get(idExhibit).setName(name);
+	}
+	
+	private static void changeArtifactSignInExhibit(int idExhibit) {
+		System.out.println("Change Artifact Sign");
+		System.out.println(exhibits.get(idExhibit));
+	}
+	
+	private static void appendNewArtifactInExhibit() {
+		System.out.println("Append New Artifact");
+	}
+	
+	private static void insertNewArtifactInExhibit() {
+		System.out.println("Inset New Artifact");
+	}
+	
+	private static void deleteArtifactInExhibit() {
+		System.out.println("Delete Artifact from Exhibit");
+	}
+	
 	private static void manageAnnualSchedule() {
-		System.out.println("Manage Annual Schedule");
+		//
 	}
 }

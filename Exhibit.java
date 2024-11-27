@@ -19,12 +19,7 @@ public class Exhibit {
 	
 	//METHODS
 	public String getDetails() {
-		int totalTime = 0;
-		for (int i = 0; i < artifacts.size(); i++) {
-	        Artifact artifact = artifacts.get(i);
-	        totalTime += artifact.getEngagementTime();
-	    }
-	    String result = "ID: " + getId() + ", Name: " + getName() + ", Total Time: " + totalTime;
+	    String result = "ID: " + getId() + ", Name: " + getName() + ", Total Time: " + getTotalTime();
 		
 	    for (int i = 0; i < artifacts.size(); i++) {
 	        Artifact artifact = artifacts.get(i);
@@ -39,6 +34,14 @@ public class Exhibit {
     public void addArtifact(Artifact artifact, String signText) {
         artifacts.add(artifact);
         signs.add(signText);
+    }
+    public int getTotalTime() {
+    	int totalTime = 0;
+		for (int i = 0; i < artifacts.size(); i++) {
+	        Artifact artifact = artifacts.get(i);
+	        totalTime += artifact.getEngagementTime();
+	    }
+		return totalTime;
     }
 	
 	// SETTERS
