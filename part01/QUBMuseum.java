@@ -1,7 +1,7 @@
 // change all toUpperCase() to equalsIgnoreCase()
-//appendNewArtifactInExhibit() {
-//insertNewArtifactInExhibit() {
-//manageAnnualSchedule() {
+//manageAnnualSchedule()
+// when changing artifact in exhibit enters name but instead should change to ID to avoid any confusion
+// print ID too when editing
 
 package part01;
 
@@ -9,13 +9,15 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 public class QUBMuseum {
+	
 	static Scanner scanner = new Scanner(System.in);
 
 	private static ArrayList<Artifact> artifacts = new ArrayList<>();
 	private static ArrayList<Exhibit> exhibits = new ArrayList<>();
+	private static ArrayList<AnnualPlan> annualPlans = new ArrayList<>();
 
 	public static void main(String[] args) {
-		
+
         artifacts.add(new Artifact("bob", Type.PAINTING, 5));
         artifacts.add(new Artifact("cat", Type.DIGITAL, 6));
         artifacts.add(new Artifact("abbie", Type.DIGITAL, 3));
@@ -51,6 +53,7 @@ public class QUBMuseum {
         exhibits.add(exhibit2);
         exhibits.add(exhibit3);
         exhibits.add(exhibit4);
+        
         
 		Menu mainMenu = new Menu ("QUB Museum", Resources.mainOptions);
 		
@@ -305,6 +308,7 @@ public class QUBMuseum {
 			System.out.println("No Artifacts Found with ID: " + userInput + "\n");
 		}
 	}
+	
 	private static void updateArtifacts() {
 		System.out.println();
 		System.out.println("Update Artifacts");
@@ -403,6 +407,7 @@ public class QUBMuseum {
 			userInput = scanner.nextLine();
 		}
 	}
+	
 	private static void addArtifactToExhibit(Exhibit newExhibit) {
 		System.out.println("\nEnter ID of the Artifact you want to add to Exhibits: ");
 		int idInput = scanner.nextInt();
@@ -426,6 +431,7 @@ public class QUBMuseum {
 			System.out.println("No Artifact Found with ID: " + idInput);
 		}
 	}
+	
 	private static void viewExhibit() {
 		System.out.println();
 		
@@ -577,6 +583,7 @@ public class QUBMuseum {
 			System.out.println("No Exhibit Found with ID: " + userInput + "\n");
 		}
 	}
+	
 	private static void updateExhibit() {
 		System.out.println();
 		System.out.println("Update Exhibits");
@@ -621,13 +628,13 @@ public class QUBMuseum {
 			changeArtifactSignInExhibit(idExhibit);
 			break;
 		case 3:
-			appendNewArtifactInExhibit();
+			appendNewArtifactInExhibit(idExhibit);
 			break;
 		case 4:
-			insertNewArtifactInExhibit();
+			insertNewArtifactInExhibit(idExhibit);
 			break;
 		case 5:
-			deleteArtifactInExhibit();
+			deleteArtifactInExhibit(idExhibit);
 			break;
 		case 6:
 			quit = true;
@@ -640,6 +647,7 @@ public class QUBMuseum {
 		System.out.println("Enter New Exhibit Name: ");
 		String name = scanner.nextLine();
 		exhibits.get(idExhibit).setName(name);
+		System.out.println(exhibits.get(idExhibit));
 	}
 	
 	private static void changeArtifactSignInExhibit(int idExhibit) {
@@ -660,6 +668,7 @@ public class QUBMuseum {
 	            String newSign = scanner.nextLine();
 
 	            exhibits.get(idExhibit).getArtifactSigns().set(i, newSign);
+	            System.out.println(exhibits.get(idExhibit));
 
 	            System.out.println("Successfully updated the sign for artifact: " + artifact.getName());
 	            break;
@@ -671,12 +680,60 @@ public class QUBMuseum {
 	    }
 	}
 	
-	private static void appendNewArtifactInExhibit() {
-		System.out.println("Append New Artifact");
+	private static void appendNewArtifactInExhibit(int idExhibit) {
+		System.out.println("\nEnter ID of the Artifact you want to add to Exhibits: ");
+		int idInput = scanner.nextInt();
+		Artifact artifact = null;
+		scanner.nextLine();
+		
+		boolean found = false;
+		for (int i = 0; i < artifacts.size(); i++) {
+			if (artifacts.get(i).getId() == idInput) {
+				artifact = artifacts.get(i);
+				found = true;
+			}
+		}
+		
+		if (found) {
+			System.out.println("\nEnter Sign details of the Artifact you want to add to Exhibits: ");
+			String signInput = scanner.nextLine();
+			
+			exhibits.get(idExhibit).addArtifact(artifact, signInput);
+			System.out.println(exhibits.get(idExhibit));
+		} else {
+			System.out.println("No Artifact Found with ID: " + idInput);
+		}
 	}
 	
-	private static void insertNewArtifactInExhibit() {
-		System.out.println("Inset New Artifact");
+	private static void insertNewArtifactInExhibit(int idExhibit) {
+		System.out.println("\nEnter ID of the Artifact you want to add to Exhibits: ");
+		int idInput = scanner.nextInt();
+		Artifact artifact = null;
+		scanner.nextLine();
+		
+		boolean found = false;
+		for (int i = 0; i < artifacts.size(); i++) {
+			if (artifacts.get(i).getId() == idInput) {
+				artifact = artifacts.get(i);
+				found = true;
+			}
+		}
+		
+		if (found) {
+			System.out.println("\nEnter Sign details of the Artifact you want to add to Exhibits: ");
+			String signInput = scanner.nextLine();
+			
+			System.out.println("\n Enter the Position you want the Artifact to be inserted at: ");
+			int positionInput = scanner.nextInt();
+			int indexInput = positionInput - 1;
+			scanner.nextLine();
+			
+			exhibits.get(idExhibit).addArtifact(artifact, signInput, indexInput);
+			System.out.println(exhibits.get(idExhibit));
+			
+		} else {
+			System.out.println("No Artifact Found with ID: " + idInput);
+		}
 	}
 	
 	private static void deleteArtifactInExhibit(int idExhibit) {
@@ -695,6 +752,8 @@ public class QUBMuseum {
 
 	            exhibits.get(idExhibit).getArtifacts().remove(i);
 	            exhibits.get(idExhibit).getArtifactSigns().remove(i);
+	            
+	            System.out.println(exhibits.get(idExhibit));
 
 	            System.out.println("Successfully deleted the artifact: " + artifact.getName());
 	            break;
@@ -707,6 +766,57 @@ public class QUBMuseum {
 	}
 	
 	private static void manageAnnualSchedule() {
+		System.out.println();
+		Menu annualPlanMenu = new Menu ("Manage Annual Plan", Resources.annualPlanOptions);
+		
+		int choice = 0;
+		boolean quit = false;
+		
+		do {
+			choice = annualPlanMenu.getUserChoice();
+			quit = processAnnualPlanChoice(choice);
+		} while (!quit);
+	}
+	
+	private static boolean processAnnualPlanChoice (int choice) {
+		boolean quit = false;
+		switch (choice) {
+		case 1:
+			addAnnualPlan();
+			break;
+		case 2:
+			viewAnnualPlan();
+			break;
+		case 3:
+			modifyAnnualPlan();
+			break;
+		case 4:
+			quit = true;
+		}
+		return quit;
+	}
+
+	private static void addAnnualPlan() {
+		System.out.println();
+		System.out.print("Enter Year to Create Plan: ");
+		int year = scanner.nextInt();
+		scanner.nextLine();
+		
+		AnnualPlan newAnnualPlan = new AnnualPlan (year);
+		annualPlans.add(newAnnualPlan);
+	}
+	
+	private static void viewAnnualPlan() {
+	    for (int i = 0; i < annualPlans.size(); i++) {
+	        System.out.println(annualPlans.get(i).toString());
+	    }
+	}
+	
+	private static void modifyAnnualPlan() {
 		//
 	}
+	
+	
+	
+	
 }

@@ -21,9 +21,11 @@ public class Exhibit {
 	public String getDetails() {
 	    String result = "ID: " + getId() + ", Name: " + getName() + ", Total Time: " + getTotalTime();
 		
+	    int count = 1;
 	    for (int i = 0; i < artifacts.size(); i++) {
 	        Artifact artifact = artifacts.get(i);
-	        result += "\n       Name: " + artifact.getName() + ", Time: " + artifact.getEngagementTime() + ", Sign: " + signs.get(i);
+	        result += "\n       " + count + ". Name: " + artifact.getName() + ", Time: " + artifact.getEngagementTime() + ", Sign: " + signs.get(i);
+	        count += 1;
 	    }
 	    return result;
 	}
@@ -35,6 +37,17 @@ public class Exhibit {
     public void addArtifact(Artifact artifact, String signText) {
         artifacts.add(artifact);
         signs.add(signText);
+    }
+    
+    public void addArtifact(Artifact artifact, String signText, int index) {
+        if (index < 0 || index > artifacts.size()) {
+            System.out.println("Invalid Index, Adding Artifact to End");
+            artifacts.add(artifact);
+            signs.add(signText);
+        } else {
+            artifacts.add(index, artifact);
+            signs.add(index, signText);
+        }
     }
     
     public int getTotalTime() {
