@@ -14,45 +14,17 @@ public class QUBMuseum {
 	private static ArrayList<Exhibit> exhibits = new ArrayList<>();
 	private static ArrayList<AnnualPlan> annualPlans = new ArrayList<>();
 
+    public static ArrayList<Artifact> getArtifacts() {
+        return artifacts;
+    }
+    public static ArrayList<Exhibit> getExhibits() {
+        return exhibits;
+    }
+    public static ArrayList<AnnualPlan> getAnnualPlans() {
+        return annualPlans;
+    }
+	
 	public static void main(String[] args) {
-
-        artifacts.add(new Artifact("bob", Type.PAINTING, 5));
-        artifacts.add(new Artifact("cat", Type.DIGITAL, 6));
-        artifacts.add(new Artifact("abbie", Type.DIGITAL, 3));
-        artifacts.add(new Artifact("daniel", Type.TACTILE, 4));
-        artifacts.add(new Artifact("dan", Type.OTHER, 5));
-        artifacts.add(new Artifact("starry night", Type.PAINTING, 10));
-        artifacts.add(new Artifact("digital dreams", Type.DIGITAL, 8));
-        artifacts.add(new Artifact("ancient vase", Type.TACTILE, 7));
-        artifacts.add(new Artifact("modern sculpture", Type.OTHER, 6));
-        artifacts.add(new Artifact("mystic forest", Type.PAINTING, 9));
-		
-        Exhibit exhibit1 = new Exhibit("Historic Paintings");
-        exhibit1.addArtifact(artifacts.get(0), "Bob's masterpiece, dated 18th century.");
-        exhibit1.addArtifact(artifacts.get(5), "Famous Starry Night painting.");
-        exhibit1.addArtifact(artifacts.get(9), "Depiction of a serene mystic forest.");
-
-        Exhibit exhibit2 = new Exhibit("Digital Wonders");
-        exhibit2.addArtifact(artifacts.get(1), "An artistic representation in digital form.");
-        exhibit2.addArtifact(artifacts.get(2), "A digital masterpiece by Abbie.");
-        exhibit2.addArtifact(artifacts.get(6), "A futuristic vision captured digitally.");
-
-        Exhibit exhibit3 = new Exhibit("Tactile Treasures");
-        exhibit3.addArtifact(artifacts.get(3), "Tactile artifact by Daniel.");
-        exhibit3.addArtifact(artifacts.get(8), "A modern tactile sculpture.");
-        exhibit3.addArtifact(artifacts.get(7), "Ancient vase with intricate carvings.");
-
-        Exhibit exhibit4 = new Exhibit("Mixed Collection");
-        exhibit4.addArtifact(artifacts.get(4), "A unique and unconventional artifact.");
-        exhibit4.addArtifact(artifacts.get(0), "Bob's masterpiece revisited.");
-        exhibit4.addArtifact(artifacts.get(8), "Sculpture representing modern creativity.");
-
-        exhibits.add(exhibit1);
-        exhibits.add(exhibit2);
-        exhibits.add(exhibit3);
-        exhibits.add(exhibit4);
-        
-        
 		Menu mainMenu = new Menu ("QUB Museum", Resources.mainOptions);
 		
 		int choice = 0;
@@ -990,16 +962,3 @@ public class QUBMuseum {
 		}
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
