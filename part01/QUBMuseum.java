@@ -1,7 +1,5 @@
-// change all toUpperCase() to equalsIgnoreCase()
-//manageAnnualSchedule()
-// when changing artifact in exhibit enters name but instead should change to ID to avoid any confusion
-// print ID too when editing
+// change all .contains(), as this is not allowed
+// try to implement .indexOf() instead
 
 package part01;
 
@@ -804,19 +802,90 @@ public class QUBMuseum {
 		
 		AnnualPlan newAnnualPlan = new AnnualPlan (year);
 		annualPlans.add(newAnnualPlan);
+
+		String userInput;
+		do {
+			System.out.println("Would you like to Add to this Annual Plan now? (Yes/No)");
+			userInput = scanner.nextLine();
+			if (userInput.equalsIgnoreCase("YES")) {
+				addToAnnualPlan(newAnnualPlan);
+			}
+		} while (userInput.equalsIgnoreCase("YES"));
+	}
+		
+	private static void addToAnnualPlan(AnnualPlan annualPlan) {
+		System.out.println("Enter ID of Exhibit you want to Add: ");
+		int exhibitId = scanner.nextInt();
+		scanner.nextLine();
+		
+		boolean found = false;
+		Exhibit exhibit = null;
+		
+		for (int i = 0; i < exhibits.size(); i++) {
+			if (exhibits.get(i).getId() == exhibitId) {
+				found = true;
+				exhibit = exhibits.get(i);
+				break;
+			}
+		}
+		if (!found) {
+			System.out.println("No Exhibit Found with ID " + exhibitId + "\n");
+			return;
+		}
+		
+		int hallNumber = -1;
+		while (hallNumber < 1 || hallNumber > 3) {
+			System.out.println("Which Hall (1-3) should it take place: ");
+			hallNumber = scanner.nextInt();
+			scanner.nextLine();
+			if (hallNumber < 1 || hallNumber > 3) {
+				System.out.println("Please Enter a Valid Hall Number (1-3)");
+			}
+		}
+
+		int monthNumber = -1;
+		while (monthNumber < 1 || monthNumber > 12) {
+			System.out.println("What Month (1-12) should it take place:  ");
+			monthNumber = scanner.nextInt();
+			scanner.nextLine();
+			if (monthNumber < 1 || monthNumber > 12) {
+				System.out.println("Please Enter a Valid Month Number (1-12)");
+			}
+		}
+		
+		if (exhibit != null) {
+			if (annualPlan.getExhibit(monthNumber, hallNumber) == null) {
+				annualPlan.addToAnnualPlan(monthNumber, hallNumber, exhibit);
+			} else {
+				System.out.println("An Exhibit Already is Here, Do You Want to Overwrite?");
+				String userInput = scanner.nextLine();
+				 if (userInput.equalsIgnoreCase("YES")) {
+					annualPlan.addToAnnualPlan(monthNumber, hallNumber, exhibit);
+				 }
+			}
+		}
 	}
 	
 	private static void viewAnnualPlan() {
+		if (annualPlans.size() == 0) {
+			System.out.println("No Years Available\n");
+			return;
+		}
+		System.out.println("List of Years Available: ");
 	    for (int i = 0; i < annualPlans.size(); i++) {
-	        System.out.println(annualPlans.get(i).toString());
+	        System.out.print(annualPlans.get(i).getYear() + " ");
+	    }
+	    System.out.println("\nEnter the Year you Would Like to See");
+	    int userInput = scanner.nextInt();
+	    scanner.nextLine();
+	    for (int i = 0; i < annualPlans.size(); i++) {
+	        if (annualPlans.get(i).getYear() == userInput) {
+	        	System.out.println(annualPlans.get(i));
+	        }
 	    }
 	}
 	
 	private static void modifyAnnualPlan() {
 		//
-	}
-	
-	
-	
-	
+	}	
 }

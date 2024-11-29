@@ -8,5 +8,6 @@ public class Resources {
 	public static String exhibitCriteria[] = {"Search by ID", "Search by Name", "Search by Part-Name", "Search by Engagement Time", "Back"};
 	public static String exhibitUpdate[] = {"Change Exhibit Name", "Change an Artifact's Sign", "Append a new Artifact & Sign", "Insert a new Artifact & Sign", "Delete an Artifact & Sign", "Back"};
 	public static String annualPlanOptions[] = {"Create New Plan", "View Plan", "Modify Plan", "Back"};
+	public static String annualPlanMmodify[] = {"Add Exhibits to Plan","Remove Exhibits from Plan","Back"};
 	public static String months[] = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 }

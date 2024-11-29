@@ -64,4 +64,14 @@ public class AnnualPlan {
     public int getYear () {
     	return this.year;
     }
+    public Exhibit getExhibit(int monthNumber, int hallNumber) {
+        if (hallNumber == 1) {
+            return hall1[monthNumber - 1];
+        } else if (hallNumber == 2) {
+        	return hall2[monthNumber - 1];
+        } else if (hallNumber == 3) {
+        	return hall3[monthNumber - 1];
+        }
+		return null;
+    }
 }
