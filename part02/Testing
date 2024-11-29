@@ -1,0 +1,71 @@
+package part02;
+
+import part01.QUBMuseum;
+import part01.Artifact;
+import part01.Exhibit;
+import part01.AnnualPlan;
+import part01.Type;
+
+public class Testing {
+
+    public static void main(String[] args) {
+
+    	QUBMuseum.getArtifacts().add(new Artifact("bob", Type.PAINTING, 5));
+        QUBMuseum.getArtifacts().add(new Artifact("cat", Type.DIGITAL, 6));
+        QUBMuseum.getArtifacts().add(new Artifact("abbie", Type.DIGITAL, 3));
+        QUBMuseum.getArtifacts().add(new Artifact("daniel", Type.TACTILE, 4));
+        QUBMuseum.getArtifacts().add(new Artifact("dan", Type.OTHER, 5));
+        QUBMuseum.getArtifacts().add(new Artifact("starry night", Type.PAINTING, 10));
+        QUBMuseum.getArtifacts().add(new Artifact("digital dreams", Type.DIGITAL, 8));
+        QUBMuseum.getArtifacts().add(new Artifact("ancient vase", Type.TACTILE, 7));
+        QUBMuseum.getArtifacts().add(new Artifact("modern sculpture", Type.OTHER, 6));
+        QUBMuseum.getArtifacts().add(new Artifact("mystic forest", Type.PAINTING, 9));
+
+        Exhibit exhibit1 = new Exhibit("Historic Paintings");
+        exhibit1.addArtifact(QUBMuseum.getArtifacts().get(0), "Bob's masterpiece, dated 18th century.");
+        exhibit1.addArtifact(QUBMuseum.getArtifacts().get(5), "Famous Starry Night painting.");
+        exhibit1.addArtifact(QUBMuseum.getArtifacts().get(9), "Depiction of a serene mystic forest.");
+
+        Exhibit exhibit2 = new Exhibit("Digital Wonders");
+        exhibit2.addArtifact(QUBMuseum.getArtifacts().get(1), "An artistic representation in digital form.");
+        exhibit2.addArtifact(QUBMuseum.getArtifacts().get(2), "A digital masterpiece by Abbie.");
+        exhibit2.addArtifact(QUBMuseum.getArtifacts().get(6), "A futuristic vision captured digitally.");
+
+        Exhibit exhibit3 = new Exhibit("Tactile Treasures");
+        exhibit3.addArtifact(QUBMuseum.getArtifacts().get(3), "Tactile artifact by Daniel.");
+        exhibit3.addArtifact(QUBMuseum.getArtifacts().get(8), "A modern tactile sculpture.");
+        exhibit3.addArtifact(QUBMuseum.getArtifacts().get(7), "Ancient vase with intricate carvings.");
+
+        Exhibit exhibit4 = new Exhibit("Mixed Collection");
+        exhibit4.addArtifact(QUBMuseum.getArtifacts().get(4), "A unique and unconventional artifact.");
+        exhibit4.addArtifact(QUBMuseum.getArtifacts().get(0), "Bob's masterpiece revisited.");
+        exhibit4.addArtifact(QUBMuseum.getArtifacts().get(8), "Sculpture representing modern creativity.");
+
+        QUBMuseum.getExhibits().add(exhibit1);
+        QUBMuseum.getExhibits().add(exhibit2);
+        QUBMuseum.getExhibits().add(exhibit3);
+        QUBMuseum.getExhibits().add(exhibit4);
+        
+        AnnualPlan plan2024 = new AnnualPlan(2024);
+        plan2024.addToAnnualPlan(1, 1, QUBMuseum.getExhibits().get(0)); // January, Hall 1
+        plan2024.addToAnnualPlan(2, 2, QUBMuseum.getExhibits().get(1)); // February, Hall 2
+        plan2024.addToAnnualPlan(3, 3, QUBMuseum.getExhibits().get(2)); // March, Hall 3
+
+        // Create AnnualPlan for 2025
+        AnnualPlan plan2025 = new AnnualPlan(2025);
+        plan2025.addToAnnualPlan(4, 1, QUBMuseum.getExhibits().get(3)); // April, Hall 1
+        plan2025.addToAnnualPlan(5, 2, QUBMuseum.getExhibits().get(0)); // May, Hall 2
+        plan2025.addToAnnualPlan(6, 3, QUBMuseum.getExhibits().get(1)); // June, Hall 3
+
+        // Create AnnualPlan for 2026
+        AnnualPlan plan2026 = new AnnualPlan(2026);
+        plan2026.addToAnnualPlan(7, 1, QUBMuseum.getExhibits().get(2)); // July, Hall 1
+        plan2026.addToAnnualPlan(8, 2, QUBMuseum.getExhibits().get(3)); // August, Hall 2
+        plan2026.addToAnnualPlan(9, 3, QUBMuseum.getExhibits().get(0)); // September, Hall 3
+
+        // Add the plans to the museum
+        QUBMuseum.getAnnualPlans().add(plan2024);
+        QUBMuseum.getAnnualPlans().add(plan2025);
+        QUBMuseum.getAnnualPlans().add(plan2026);
+    }
+}
