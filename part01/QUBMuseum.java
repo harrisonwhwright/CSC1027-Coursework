@@ -800,6 +800,11 @@ public class QUBMuseum {
 		int year = scanner.nextInt();
 		scanner.nextLine();
 		
+		if (year < 0) {
+			System.out.println("Please Enter A Valid Year\n");
+			return;
+		}
+		
 		AnnualPlan newAnnualPlan = new AnnualPlan (year);
 		annualPlans.add(newAnnualPlan);
 
@@ -857,10 +862,13 @@ public class QUBMuseum {
 			if (annualPlan.getExhibit(monthNumber, hallNumber) == null) {
 				annualPlan.addToAnnualPlan(monthNumber, hallNumber, exhibit);
 			} else {
-				System.out.println("An Exhibit Already is Here, Do You Want to Overwrite?");
+				System.out.println("An Exhibit Already is Here, Do You Want to Overwrite? (Yes/No)");
 				String userInput = scanner.nextLine();
 				 if (userInput.equalsIgnoreCase("YES")) {
 					annualPlan.addToAnnualPlan(monthNumber, hallNumber, exhibit);
+					System.out.println("Overwritten Successfully");
+				 } else {
+					 System.out.println("Data not Overwritten");
 				 }
 			}
 		}
@@ -881,11 +889,117 @@ public class QUBMuseum {
 	    for (int i = 0; i < annualPlans.size(); i++) {
 	        if (annualPlans.get(i).getYear() == userInput) {
 	        	System.out.println(annualPlans.get(i));
+	        	return;
 	        }
 	    }
 	}
 	
 	private static void modifyAnnualPlan() {
-		//
-	}	
+		
+	    System.out.println("\nEnter the Year you Would Like to Modify");
+	    int userInput = scanner.nextInt();
+	    scanner.nextLine();
+	    
+	    boolean found = false;
+	    AnnualPlan annualPlan = null;
+	    for (int i = 0; i < annualPlans.size(); i++) {
+	        if (annualPlans.get(i).getYear() == userInput) {
+	        	System.out.println(annualPlans.get(i));
+	        	annualPlan = annualPlans.get(i);
+	        	found = true;
+	        }
+	    }
+	    if (!found) {
+	    	System.out.println("Year Entered Not Found");
+	    	return;
+	    }
+	    
+		Menu modifyAnnualPlanChoice = new Menu ("Modify an Annual Plan", Resources.annualPlanModify);
+		
+		int choice = 0;
+		boolean quit = false;
+		
+		do {
+			choice = modifyAnnualPlanChoice.getUserChoice();
+			quit = processModifyAnnualPlanChoice(annualPlan, choice);
+		} while (!quit);
+	}
+	
+	private static boolean processModifyAnnualPlanChoice (AnnualPlan annualPlan, int choice) {
+		boolean quit = false;
+		switch (choice) {
+		case 1:
+			String userInput;
+			do {
+				addToAnnualPlan(annualPlan);
+				
+				System.out.println("Would You Like to Add More to this Annual Plan (Yes/No)");
+				userInput = scanner.nextLine();
+				if (userInput.equalsIgnoreCase("YES")) {
+					addToAnnualPlan(annualPlan);
+				}
+			} while (userInput.equalsIgnoreCase("YES"));
+			break;
+		case 2:
+			removeFromAnnualPlan(annualPlan);
+			break;
+		case 3:
+			deleteAnnualPlan(annualPlan);
+			break;
+		case 4:
+			quit = true;
+		}
+	return quit;
+	}
+
+	private static void removeFromAnnualPlan (AnnualPlan annualPlan) {
+		int monthNumber = -1;
+		while (monthNumber < 1 || monthNumber > 12) {
+			System.out.println("What Month (1-12) to Edit:  ");
+			monthNumber = scanner.nextInt();
+			scanner.nextLine();
+			if (monthNumber < 1 || monthNumber > 12) {
+				System.out.println("Please Enter a Valid Month Number (1-12)");
+			}
+		}
+		
+		int hallNumber = -1;
+		while (hallNumber < 1 || hallNumber > 3) {
+			System.out.println("Which Hall (1-3) to Remove Exhibit: ");
+			hallNumber = scanner.nextInt();
+			scanner.nextLine();
+			if (hallNumber < 1 || hallNumber > 3) {
+				System.out.println("Please Enter a Valid Hall Number (1-3)");
+			}
+		}
+		
+		if (annualPlan.getExhibit(monthNumber, hallNumber) == null) {
+			System.out.println("This is Already Empty, Nothing to Delete\n");
+		} else {
+			annualPlan.addToAnnualPlan(monthNumber, hallNumber, null);
+			System.out.println("Successfully removed Exhibit from Hall " + hallNumber + " in " + Resources.months[monthNumber-1] + "\n");
+		}
+	}
+	
+	private static void deleteAnnualPlan (AnnualPlan annualPlan) {
+		for (int i = 0; i < annualPlans.size(); i++) {
+			if (annualPlan.getYear() == annualPlans.get(i).getYear()) {
+				annualPlans.remove(i);
+				System.out.println("Successfully Removed " + annualPlan.getYear() + "\n");
+			}
+		}
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
