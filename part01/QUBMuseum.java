@@ -97,8 +97,16 @@ public class QUBMuseum {
 		System.out.println();
 		System.out.println("Add Artifact");
 		
-		System.out.print("Enter Artifact Name: ");
-		String name = scanner.nextLine();
+		String name;
+		while (true) {
+			System.out.print("Enter Artifact Name: ");
+			name = scanner.nextLine();
+			if (!name.isEmpty()) {
+				break;
+			} else {
+				System.out.println("Invalid Name, Name Cannot be Empty");
+			}
+		}
 		
 		System.out.print("Enter Artifact Type: ");
 		String tempClassification = scanner.nextLine().toUpperCase();
@@ -106,19 +114,52 @@ public class QUBMuseum {
 		try {
 			classification = Type.valueOf(tempClassification);
 		} catch (Exception e) {
-			System.out.println("Invalid type entered, using OTHER");
+			System.out.println("Invalid Type Entered, Using OTHER");
 			classification = Type.OTHER;
 		}
 		
-		System.out.print("Enter Engagement Time: ");
-		int engagementTime = scanner.nextInt();
-		scanner.nextLine();
+		int engagementTime;
+		while (true) {
+			System.out.print("Enter Engagement Time: ");
+			engagementTime = scanner.nextInt();
+			scanner.nextLine();
+			if (engagementTime >= 0) {
+				break;
+			} else {
+				System.out.println("Invalid Engagement Type Entered");
+			}
+		}
 		
+				
 		Artifact newArtifact = new Artifact (name, classification, engagementTime);
+		
 		artifacts.add(newArtifact);
 		
 		System.out.println("Successfully Added Artifact");
 		System.out.println();
+	}
+	
+	public static void addArtifacts(String name, Type classification, int engagementTime) {
+		
+		if (name == null || name.isEmpty()) {
+			System.out.println("Invalid Artifact Name, Cannot be Null or Empty");
+			System.out.println("Not Added to Artifacts");
+			return;
+		}
+	    if (classification == null) {
+	        System.out.println("Invalid Type Provided, using OTHER");
+	        classification = Type.OTHER;
+	    }
+	    if (engagementTime < 0) {
+	    	System.out.println("Invalid Engagement Type Entered");
+	    	System.out.println("Not Added to Artifacts");
+	    	return;
+	    }
+			
+		Artifact newArtifact = new Artifact (name, classification, engagementTime);
+		artifacts.add(newArtifact);
+		
+		System.out.println("Successfully Added Artifact");
 	}
 	
 	private static void viewArtifacts() { 
