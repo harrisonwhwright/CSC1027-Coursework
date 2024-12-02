@@ -1,6 +1,8 @@
 // change all .contains(), as this is not allowed
 // try to implement .indexOf() instead
 
+// change UML to include static, public, private, etc. details
+
 package part01;
 
 import java.util.Scanner;

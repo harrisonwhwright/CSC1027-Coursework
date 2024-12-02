@@ -1,0 +1,116 @@
+@startuml
+class Artifact {
+    static int nextId
+    - int id
+    - String name
+    - Type classification
+    - int engagementTime
+    --
+    + Artifact(String name, Type classification, int engagementTime)
+    + addArtifacts()
+    + viewArtifacts()
+    + viewArtifactById()
+    + viewArtifactByName()
+    + viewArtifactByPartName()
+    + viewArtifactByType()
+    + deleteArtifacts()
+    + updateArtifacts()
+    + setID(int id)
+    + setName(String name)
+    + setType(Type type)
+    + setEngagementTime(int engagementTime)
+    + getId() : int
+    + getName() : String
+    + getType() : Type
+    + getEngagementTime() : int
+    + String getDetails()
+}
+
+enum Type {
+    PAINTING
+    SCULPTURE
+    DIGITAL
+    TACTILE
+    OTHER
+}
+
+class Exhibit {
+    - int id
+    - String name
+    - ArrayList<Artifact> artifacts
+    - ArrayList<String> signs
+    --
+    + Exhibit(String name)
+    + addExhibit()
+    + viewExhibit()
+    + viewExhibitByID()
+    + viewExhibitByName()
+    + viewExhibitByPartName()
+    + viewExhibitByEngagementTime()
+    + deleteExhibit()
+    + updateExhibit()
+    + changeExhibitName()
+    + changeArtifactSignInExhibit()
+    + appendNewArtifactInExhibit()
+    + insertNewArtifactInExhibit()
+    + deleteArtifactInExhibit()
+    + addArtifactToExhibit(Artifact artifact, String signText)
+    + setID(int id)
+    + setName(String name)
+    + getID() : int
+    + getName() : String
+    + getArtifacts() : ArrayList<Artifact>
+    + getArtifactSigns() : ArrayList<String>
+    + getTotalTime() : int
+    + getDetails() : String
+}
+
+class AnnualPlan {
+    - int year
+    - Exhibit[] hall1
+    - Exhibit[] hall2
+    - Exhibit[] hall3
+    --
+    + AnnualPlan(int year)
+    + createHalls()
+    + addAnnualPlan(int monthNumber, int hallNumber, Exhibit exhibit)
+    + viewAnnualPlan(int year)
+    + modifyAnnualPlan(int year, int monthNumber, int hallNumber, Exhibit exhibit)
+    + removeAnnualPlan(int year)
+    + deleteAnnualPlan()
+    + setYear(int year)
+    + getYear() : int
+    + getExhibit(int year, int monthNumber, int hallNumber) : Exhibit
+    + getDetails() : String
+}
+
+class QUBMuseum {
+    - ArrayList<Artifact> artifacts
+    - ArrayList<Exhibit> exhibits
+    - ArrayList<AnnualPlan> annualPlans
+    --
+    + main()
+    + processChoice()
+    + manageArtifacts()
+    + processArtifactChoice()
+    + processViewArtifactChoice()
+    + manageExhibits()
+    + processExhibitChoice()
+    + processViewExhibitChoice()
+    + processExhibitUpdateMenu()
+    + manageAnnualSchedule()
+    + processAnnualPlanChoice()
+    + processModifyAnnualPlanChoice()
+    + static ArrayList<Artifact> getArtifacts() : ArrayList<Artifact>
+    + static ArrayList<Exhibit> getExhibits() : ArrayList<Exhibit>
+    + static ArrayList<AnnualPlan> getAnnualPlans() : ArrayList<AnnualPlan>
+}
+
+Artifact "1" --> "1" Type : has type
+
+Exhibit "1" o-- "*" Artifact : contains
+
+AnnualPlan "1" o-- "*" Exhibit : contains
+
+QUBMuseum "1" o-- "*" AnnualPlan : manages
+@enduml
