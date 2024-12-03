@@ -245,6 +245,20 @@ public class QUBMuseum {
 		}
 	}
 	
+	public static void viewArtifactById(int iD) {		
+		boolean found = false;
+		for (int i = 0; i < artifacts.size(); i++) {
+			if (artifacts.get(i).getId() == iD) {
+				System.out.println(artifacts.get(i));
+				found = true;
+				System.out.println();
+			}
+		}
+		if (!found) {
+			System.out.println("No Artifact Found with ID " + iD + "\n");
+		}
+	}
+	
 	private static void viewArtifactByName() {
 		System.out.println("\nEnter Name of the Artifacts you want to see:"); 
 		String userInput = scanner.nextLine();
