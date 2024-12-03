@@ -141,30 +141,34 @@ public class QUBMuseum {
 		System.out.println();
 	}
 	
-	public static void addArtifacts(String name, Type classification, int engagementTime) {
-		
-		if (name == null || name.isEmpty()) {
-			System.out.println("Invalid Artifact Name, Cannot be Null or Empty");
-			System.out.println("Not Added to Artifacts");
-			return;
-		}
-	    if (classification == null) {
+	public static void addArtifacts(Object name, Object classification, int engagementTime) {
+	    if (!(name instanceof String) || ((String) name).isEmpty()) {
+	        System.out.println("Invalid Artifact Name");
+	        System.out.println("Not Added to Artifacts");
+	        return;
+	    }
+
+	    if (!(classification instanceof Type)) {
 	        System.out.println("Invalid Type Provided, using OTHER");
 	        classification = Type.OTHER;
 	    }
+	    Type validClassification = (Type) classification;
+
 	    if (engagementTime < 0) {
-	    	System.out.println("Invalid Engagement Type Entered");
-	    	System.out.println("Not Added to Artifacts");
-	    	return;
+	        System.out.println("Invalid Engagement Time Entered");
+	        System.out.println("Not Added to Artifacts");
+	        return;
 	    }
-			
-		Artifact newArtifact = new Artifact (name, classification, engagementTime);
-		artifacts.add(newArtifact);
-		
-		System.out.println("Successfully Added Artifact");
+
+	    Artifact newArtifact = new Artifact((String) name, validClassification, engagementTime);
+	    artifacts.add(newArtifact);
+
+	    System.out.println("Successfully Added Artifact");
 	}
+
+
 	
-	private static void viewArtifacts() { 
+	public static void viewArtifacts() { 
 	    System.out.println();
 	    
 	    if (artifacts.size() == 0) {
