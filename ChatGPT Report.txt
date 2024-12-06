@@ -3,7 +3,7 @@ Within Part03 and ONLY within Part03, I used ChatGPT to help debug my GUI code u
 I am not with confident GUI and Console implementation, if I had an issue with syntax / implementing frames I would ask ChatGPT for the correct syntax.
 I made sure to verify all the responses and read over the response to better learn and understand GUI and Console implementation.
 
-Additionally, I used ChatGPT to generate names & signs for Artifacts and Exhibits.
+Additionally, I used ChatGPT to generate names & signs for Artifacts and Exhibits WITHIN PART03.
 E.g. The Exhibit Name "Sacred Masterpiece", the sign "Philosophical Sculpture" etc.
 This was simply to save time because I am not creative.
 ChatGPT was not used when writing the actual Artifact.addArtifacts or Exhibit.addArtifact functions.
