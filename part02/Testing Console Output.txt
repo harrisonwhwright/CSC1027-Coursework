@@ -1,0 +1,893 @@
+FOR TESTS 1 (1.1 - 1.8) SEE QUBMuseum.java, NO MENU INTERFACE TESTING IN THIS FILE
+2. ARTIFACT TESTS
+
+2.1 CREATING NEW ARTIFACTS
++++++ TEST CASE: 2.1.1
+  Testing: Adding Null Data
+  Result: Invalid
+----------
+Invalid Artifact Name, Not Added to Artifacts
++++++ END TEST
+
++++++ TEST CASE: 2.1.2
+  Testing: Adding Invalid Data Type
+  Result: Invalid
+----------
+Invalid Artifact Name, Not Added to Artifacts
++++++ END TEST
+
++++++ TEST CASE: 2.1.3
+  Testing: Adding Valid Data
+  Result: Success
+----------
+Successfully Added Artifact
++++++ END TEST
+
+
+2.2 VIEWING ARTIFACTS
++++++ TEST CASE: 2.2.1
+  Testing: Viewing ID with Null Data
+  Result: Invalid
+----------
+Invalid ID, Nothing to View
++++++ END TEST
+
++++++ TEST CASE: 2.2.2
+  Testing: Viewing ID with Invalid Data Type
+  Result: Invalid
+----------
+Invalid ID, Nothing to View
++++++ END TEST
+
++++++ TEST CASE: 2.2.3
+  Testing: Viewing ID with Out of Range Data
+  Result: Invalid
+----------
+Invalid ID, Nothing to View
++++++ END TEST
+
++++++ TEST CASE: 2.2.4
+  Testing: Viewing ID with Non-existant Data
+  Result: Invalid
+----------
+No Artifact Found with ID 999
++++++ END TEST
+
++++++ TEST CASE: 2.2.5
+  Testing: Viewing ID with Valid Data
+  Result: Valid
+----------
+ID: 1, Name: Delaware Landscape, Type: Painting, Engagement Time: 1
++++++ END TEST
+
++++++ TEST CASE: 2.2.6
+  Testing: Viewing Name with Null Data
+  Result: Invalid
+----------
+Invalid Name, Nothing to View
++++++ END TEST
+
++++++ TEST CASE: 2.2.7
+  Testing: Viewing Name with Invalid Data Type
+  Result: Invalid
+----------
+Invalid Name, Nothing to View
++++++ END TEST
+
++++++ TEST CASE: 2.2.8
+  Testing: Viewing Name with Non-existant Data
+  Result: Invalid
+----------
+No Artifacts Found with Name: abcde
++++++ END TEST
+
++++++ TEST CASE: 2.2.9
+  Testing: Viewing Name with Non-existant Data
+  Result: Valid
+----------
+ID: 1, Name: Delaware Landscape, Type: Painting, Engagement Time: 1
++++++ END TEST
+
++++++ TEST CASE: 2.2.10
+  Testing: Viewing Part Name with Null Data
+  Result: Invalid
+----------
+Invalid Part Name, Nothing to View
++++++ END TEST
+
++++++ TEST CASE: 2.2.11
+  Testing: Viewing Part Name with Invalid Data Type
+  Result: Invalid
+----------
+Invalid Part Name, Nothing to View
++++++ END TEST
+
++++++ TEST CASE: 2.2.12
+  Testing: Viewing Part Name with Non-existant Data
+  Result: Invalid
+----------
+No Artifacts Found with Part Name: abcde
++++++ END TEST
+
++++++ TEST CASE: 2.2.13
+  Testing: Viewing Part Name with Non-existant Data
+  Result: Valid
+----------
+ID: 1, Name: Delaware Landscape, Type: Painting, Engagement Time: 1
++++++ END TEST
+
++++++ TEST CASE: 2.2.14
+  Testing: Viewing Type with Null Data
+  Result: Invalid
+----------
+Invalid Type
++++++ END TEST
+
++++++ TEST CASE: 2.2.15
+  Testing: Viewing Type with Invalid Data Type
+  Result: Invalid
+----------
+Invalid Type
++++++ END TEST
+
++++++ TEST CASE: 2.2.16
+  Testing: Viewing Type with Invalid String Data
+  Result: Invalid
+----------
+Invalid Type
++++++ END TEST
+
++++++ TEST CASE: 2.2.17
+  Testing: Viewing Type with String Data
+  Result: Valid
+----------
+ID: 1, Name: Delaware Landscape, Type: Painting, Engagement Time: 1
++++++ END TEST
+
++++++ TEST CASE: 2.2.18
+  Testing: Viewing Type with Valid data
+  Result: Valid
+----------
+ID: 1, Name: Delaware Landscape, Type: Painting, Engagement Time: 1
++++++ END TEST
+
+
+2.3 UPDATING ARTIFACTS
++++++ TEST CASE: 2.3.1
+  Testing: Updating with null data
+  Result: Invalid
+----------
+Invalid ID, Nothing Updated
++++++ END TEST
+
++++++ TEST CASE: 2.3.2
+  Testing: Updating with Non-existant data
+  Result: Invalid
+----------
+No Artifact Found with ID: 999
++++++ END TEST
+
++++++ TEST CASE: 2.3.3
+  Testing: Updating with Invalid data types
+  Result: Invalid
+----------
+Invalid ID, Nothing Updated
++++++ END TEST
+
++++++ TEST CASE: 2.3.4
+  Testing: Updating with Valid data
+  Result: Valid
+----------
+Successfully Updated Artifact
++++++ END TEST
+
+
+2.4 DELETING ARTIFACTS
++++++ TEST CASE: 2.4.1
+  Testing: Deleting with null data
+  Result: Invalid
+----------
+Invalid ID, Nothing Deleted
++++++ END TEST
+
++++++ TEST CASE: 2.4.2
+  Testing: Deleting with Non-existant data
+  Result: Invalid
+----------
+Invalid ID, Nothing Deleted
++++++ END TEST
+
++++++ TEST CASE: 2.4.3
+  Testing: Deleting with Invalid data types
+  Result: Invalid
+----------
+No Artifact Found with ID 999
++++++ END TEST
+
++++++ TEST CASE: 2.4.4
+  Testing: Deleting with Valid data
+  Result: Valid
+----------
+Successfully Removed Artifact
++++++ END TEST
+
+
+3. EXHIBIT TESTS
+
+3.1 CREATING NEW EXHIBITS
++++++ TEST CASE: 3.1.1
+  Testing: Creating Exhibit with null data
+  Result: Invalid
+----------
+Invalid Exhibit Name, Not Added to Exhibits
++++++ END TEST
+
++++++ TEST CASE: 3.1.2
+  Testing: Creating Exhibit with invalid data type
+  Result: Invalid
+----------
+Invalid Exhibit Name, Not Added to Exhibits
++++++ END TEST
+
++++++ TEST CASE: 3.1.3
+  Testing: Creating Exhibit with valid data
+  Result: Valid
+----------
+Successfully Added Exhibit
++++++ END TEST
+
+
+3.2 ADDING ARTIFACTS TO EXHIBITS
+
+[NOTE FOR 3.2: THESE ARTIFACTS ARE CREATED FOR TESTING PURPOSES]
+Successfully Added Artifact
+Successfully Added Artifact
+Successfully Added Artifact
++++++ TEST CASE: 3.2.1
+  Testing: Adding Artifacts to Exhibit with null data
+  Result: Invalid
+----------
+Invalid Exhibit ID, Can't add Artifact to Exhibit
++++++ END TEST
+
++++++ TEST CASE: 3.2.2
+  Testing: Adding Artifacts to Exhibit with invalid data types
+  Result: Invalid
+----------
+Invalid Exhibit ID, Can't add Artifact to Exhibit
++++++ END TEST
+
++++++ TEST CASE: 3.2.3
+  Testing: Adding Artifacts to Exhibit with valid data
+  Result: Valid
+----------
+
+Successfully Added Artifact & Sign to Exhibit
++++++ END TEST
+
++++++ TEST CASE: 3.2.4
+  Testing: Adding Artifacts to Exhibit with valid data BUT Artifact already in Exhibit list
+  Result: Invalid
+----------
+
+Artifact with that ID 2 already exists in this Exhibit
++++++ END TEST
+
+
+3.3 ADDING ARTIFACTS WITH INDEX TO EXHIBITS
++++++ TEST CASE: 3.3.1
+  Testing: Creating Exhibit with null data and null index
+  Result: Invalid
+----------
+Invalid Exhibit ID, Can't add Artifact to Exhibit
++++++ END TEST
+
++++++ TEST CASE: 3.3.2
+  Testing: Creating Exhibit with invalid data type and invalid index
+  Result: Invalid
+----------
+Invalid Exhibit ID, Can't add Artifact to Exhibit
++++++ END TEST
+
++++++ TEST CASE: 3.3.3
+  Testing: Creating Exhibit with valid data and index of -1
+  Result: Valid
+----------
+Invalid Index, Adding Artifact to End
+
+Successfully Added Artifact & Sign to Exhibit
++++++ END TEST
+
++++++ TEST CASE: 3.3.4
+  Testing: Creating Exhibit with valid data and valid index
+  Result: Valid
+----------
+
+Successfully Added Artifact & Sign to Exhibit at Index 0
++++++ END TEST
+
+
+3.4 VIEWING EXHIBITS
++++++ TEST CASE: 3.4.1
+  Testing: Viewing Exhibit by ID with null data
+  Result: Invalid
+----------
+Invalid ID, Nothing to View
++++++ END TEST
+
++++++ TEST CASE: 3.4.2
+  Testing: Viewing Exhibit by ID with invalid data type
+  Result: Invalid
+----------
+Invalid ID, Nothing to View
++++++ END TEST
+
++++++ TEST CASE: 3.4.3
+  Testing: Viewing Exhibit by ID with Out of Range data
+  Result: Invalid
+----------
+Invalid ID, Nothing to View
++++++ END TEST
+
++++++ TEST CASE: 3.4.4
+  Testing: Viewing Exhibit by ID with Non-existant data
+  Result: Invalid
+----------
+No Exhibits Found with ID 999
++++++ END TEST
+
++++++ TEST CASE: 3.4.5
+  Testing: Viewing Exhibit by ID with valid data
+  Result: Valid
+----------
+ID: 1, Name: New Exhibit, Total Time: 17
+       1. (ID: 4) Name: TouchIT, Time: 4, Sign: Completely Different Artifact Sign
+       2. (ID: 2) Name: Acropolis Statues, Time: 5, Sign: Artifact Sign
+       3. (ID: 3) Name: Mona Lisa, Time: 8, Sign: Different Artifact Sign
++++++ END TEST
+
++++++ TEST CASE: 3.4.6
+  Testing: Viewing Exhibit by Name with null data
+  Result: Invalid
+----------
+Invalid Name, Nothing to View
++++++ END TEST
+
++++++ TEST CASE: 3.4.7
+  Testing: Viewing Exhibit by Name with invalid data type
+  Result: Invalid
+----------
+Invalid Name, Nothing to View
++++++ END TEST
+
++++++ TEST CASE: 3.4.8
+  Testing: Viewing Exhibit by Name with non-existant data
+  Result: Invalid
+----------
+No Exhibits Found with Name: abcde
++++++ END TEST
+
++++++ TEST CASE: 3.4.9
+  Testing: Viewing Exhibit by Name with valid data
+  Result: Valid
+----------
+ID: 1, Name: New Exhibit, Total Time: 17
+       1. (ID: 4) Name: TouchIT, Time: 4, Sign: Completely Different Artifact Sign
+       2. (ID: 2) Name: Acropolis Statues, Time: 5, Sign: Artifact Sign
+       3. (ID: 3) Name: Mona Lisa, Time: 8, Sign: Different Artifact Sign
++++++ END TEST
+
++++++ TEST CASE: 3.4.10
+  Testing: Viewing Exhibit by Part Name with null data
+  Result: Invalid
+----------
+Invalid Part Name, Nothing to View
++++++ END TEST
+
++++++ TEST CASE: 3.4.11
+  Testing: Viewing Exhibit by Part Name with invalid data type
+  Result: Invalid
+----------
+Invalid Part Name, Nothing to View
++++++ END TEST
+
++++++ TEST CASE: 3.4.12
+  Testing: Viewing Exhibit by Part Name with non-existant data
+  Result: Invalid
+----------
+No Exhibits Found with Part Name: abcde
++++++ END TEST
+
++++++ TEST CASE: 3.4.13
+  Testing: Viewing Exhibit by Part Name with valid data
+  Result: Valid
+----------
+ID: 1, Name: New Exhibit, Total Time: 17
+       1. (ID: 4) Name: TouchIT, Time: 4, Sign: Completely Different Artifact Sign
+       2. (ID: 2) Name: Acropolis Statues, Time: 5, Sign: Artifact Sign
+       3. (ID: 3) Name: Mona Lisa, Time: 8, Sign: Different Artifact Sign
++++++ END TEST
+
++++++ TEST CASE: 3.4.14
+  Testing: Viewing Exhibit by Engagement Time with null data
+  Result: Invalid
+----------
+Invalid ID, Nothing to View
++++++ END TEST
+
++++++ TEST CASE: 3.4.15
+  Testing: Viewing Exhibit by Engagement Time with invalid data type
+  Result: Invalid
+----------
+Invalid ID, Nothing to View
++++++ END TEST
+
++++++ TEST CASE: 3.4.16
+  Testing: Viewing Exhibit by Engagement Time with Out of Range data
+  Result: Invalid
+----------
+Invalid ID, Nothing to View
++++++ END TEST
+
++++++ TEST CASE: 3.4.17
+  Testing: Viewing Exhibit by Engagement Time with Non-existant data
+  Result: Invalid
+----------
+No Exhibits Found with Engagement Time 999
++++++ END TEST
+
++++++ TEST CASE: 3.4.18
+  Testing: Viewing Exhibit by Engagement Time with valid data
+  Result: Valid
+----------
+ID: 1, Name: New Exhibit, Total Time: 17
+       1. (ID: 4) Name: TouchIT, Time: 4, Sign: Completely Different Artifact Sign
+       2. (ID: 2) Name: Acropolis Statues, Time: 5, Sign: Artifact Sign
+       3. (ID: 3) Name: Mona Lisa, Time: 8, Sign: Different Artifact Sign
++++++ END TEST
+
+
+3.5 UPDATING EXHIBITS
++++++ TEST CASE: 3.5.1
+  Testing: Updating Exhibit with null ID and valid Name
+  Result: Invalid
+----------
+Invalid ID, Nothing Changed
++++++ END TEST
+
++++++ TEST CASE: 3.5.2
+  Testing: Updating Exhibit with invalid ID data type and valid Name
+  Result: Invalid
+----------
+Invalid ID, Nothing Changed
++++++ END TEST
+
++++++ TEST CASE: 3.5.3
+  Testing: Updating Exhibit with Out of Range ID and valid Name
+  Result: Invalid
+----------
+Invalid ID, Nothing Changed
++++++ END TEST
+
++++++ TEST CASE: 3.5.4
+  Testing: Updating Exhibit with non-existant ID and valid Name
+  Result: Invalid
+----------
+No Exhibit Found with ID 999
++++++ END TEST
+
++++++ TEST CASE: 3.5.5
+  Testing: Updating Exhibit with valid ID and null Name
+  Result: Invalid
+----------
+Invalid Name, Nothing Changed
++++++ END TEST
+
++++++ TEST CASE: 3.5.6
+  Testing: Updating Exhibit with valid ID and invalid Name data type
+  Result: Invalid
+----------
+Invalid Name, Nothing Changed
++++++ END TEST
+
++++++ TEST CASE: 3.5.7
+  Testing: Updating Exhibit with valid ID and valid Name
+  Result: Valid
+----------
+Successfully Updated Exhibit
++++++ END TEST
+
++++++ TEST CASE: 3.5.8
+  Testing: Updating Artifact Sign with null data
+  Result: Invalid
+----------
+Invalid Exhibit ID, Nothing Changed
++++++ END TEST
+
++++++ TEST CASE: 3.5.9
+  Testing: Updating Artifact Sign with invalid data type
+  Result: Invalid
+----------
+Invalid Exhibit ID, Nothing Changed
++++++ END TEST
+
++++++ TEST CASE: 3.5.10
+  Testing: Updating Artifact Sign with non-existant Exhibit ID
+  Result: Invalid
+----------
+java.lang.IndexOutOfBoundsException: Index 1 out of bounds for length 1
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:100)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:106)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:302)
+	at java.base/java.util.Objects.checkIndex(Objects.java:365)
+	at java.base/java.util.ArrayList.get(ArrayList.java:428)
+	at QUBMuseum/part01.Exhibit.changeSign(Exhibit.java:426)
+	at QUBMuseum/part02.Testing.testExhibits(Testing.java:367)
+	at QUBMuseum/part02.Testing.main(Testing.java:28)
++++++ END TEST
+
++++++ TEST CASE: 3.5.11
+  Testing: Updating Artifact Sign with non-existant Artifact ID
+  Result: Invalid
+----------
+No Artifact Found with ID 999 in Exhibit ID 1
++++++ END TEST
+
++++++ TEST CASE: 3.5.12
+  Testing: Updating Artifact Sign with valid data
+  Result: Valid
+----------
+Successfully Updated Sign for Artifact ID 2
++++++ END TEST
+
++++++ TEST CASE: 3.5.13
+  Testing: Deleting Artifact from Exhibit with null data
+  Result: Invalid
+----------
+Invalid Exhibit ID, Nothing Changed
++++++ END TEST
+
++++++ TEST CASE: 3.5.14
+  Testing: Deleting Artifact from Exhibit with invalid data type
+  Result: Invalid
+----------
+Invalid Exhibit ID, Nothing Changed
++++++ END TEST
+
++++++ TEST CASE: 3.5.15
+  Testing: Deleting Artifact from Exhibit with non-existant Exhibit ID
+  Result: Invalid
+----------
+java.lang.IndexOutOfBoundsException: Index 1 out of bounds for length 1
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:100)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:106)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:302)
+	at java.base/java.util.Objects.checkIndex(Objects.java:365)
+	at java.base/java.util.ArrayList.get(ArrayList.java:428)
+	at QUBMuseum/part01.Exhibit.deleteArtifact(Exhibit.java:486)
+	at QUBMuseum/part02.Testing.testExhibits(Testing.java:391)
+	at QUBMuseum/part02.Testing.main(Testing.java:28)
++++++ END TEST
+
++++++ TEST CASE: 3.5.16
+  Testing: Deleting Artifact from Exhibit with non-existant Artifact ID
+  Result: Invalid
+----------
+No Artifact Found with ID 999 in Exhibit ID 1
++++++ END TEST
+
++++++ TEST CASE: 3.5.17
+  Testing: Deleting Artifact from Exhibit with valid data
+  Result: Valid
+----------
+Successfully Removed Artifact ID 2 from Exhibit ID 1
++++++ END TEST
+
+ID: 1, Name: New Exhibit Name, Total Time: 12
+       1. (ID: 4) Name: TouchIT, Time: 4, Sign: Completely Different Artifact Sign
+       2. (ID: 3) Name: Mona Lisa, Time: 8, Sign: Different Artifact Sign
+
+3.6 DELETING EXHIBITS
++++++ TEST CASE: 3.6.1
+  Testing: Deleting Exhibit with null data
+  Result: Invalid
+----------
+Invalid ID, Nothing Deleted
++++++ END TEST
+
++++++ TEST CASE: 3.6.2
+  Testing: Deleting Exhibit with invalid data type data
+  Result: Invalid
+----------
+Invalid ID, Nothing Deleted
++++++ END TEST
+
++++++ TEST CASE: 3.6.3
+  Testing: Deleting Exhibit with Out of Range data
+  Result: Invalid
+----------
+Invalid ID, Nothing Deleted
++++++ END TEST
+
++++++ TEST CASE: 3.6.4
+  Testing: Deleting Exhibit with non-existant data
+  Result: Invalid
+----------
+No Exhibit Found with ID 999
++++++ END TEST
+
++++++ TEST CASE: 3.6.5
+  Testing: Deleting Exhibit with valid data
+  Result: Valid
+----------
+Successfully Removed Exhibit
++++++ END TEST
+
+
+3. ANNUAL PLAN TESTS
+
+4.1 CREATING ANNUAL PLANS
++++++ TEST CASE: 4.1.1
+  Testing: Creating Annual Plan with null data
+  Result: Invalid
+----------
+Invalid Year, Can't Create Annual Plan
++++++ END TEST
+
++++++ TEST CASE: 4.1.2
+  Testing: Creating Annual Plan with invalid data type
+  Result: Invalid
+----------
+Invalid Year, Can't Create Annual Plan
++++++ END TEST
+
++++++ TEST CASE: 4.1.3
+  Testing: Creating Annual Plan with Out of Range data
+  Result: Invalid
+----------
+Invalid Year, Can't Create Annual Plan
++++++ END TEST
+
++++++ TEST CASE: 4.1.4
+  Testing: Creating Annual Plan with valid data
+  Result: Valid
+----------
+Successfully Added Annual Plan
++++++ END TEST
+
+
+4.2 ADDING EXHIBITS TO ANNUAL PLAN
+
+[NOTE FOR 4.2: THESE EXHIBITS ARE CREATED FOR TESTING PURPOSES]
+Successfully Added Exhibit
+Successfully Added Exhibit
+Successfully Added Exhibit
+
++++++ TEST CASE: 4.2.1
+  Testing: Adding to Annual Plan null data
+  Result: Invalid
+----------
+Invalid Year
++++++ END TEST
+
++++++ TEST CASE: 4.2.2
+  Testing: Adding to Annual Plan invalid data type
+  Result: Invalid
+----------
+Invalid Year
++++++ END TEST
+
++++++ TEST CASE: 4.2.3
+  Testing: Adding to Annual Plan Out of Range data
+  Result: Invalid
+----------
+No Annual Plan Found with Year 9999
++++++ END TEST
+
++++++ TEST CASE: 4.2.4
+  Testing: Adding to Annual Plan Out of Range data
+  Result: Invalid
+----------
+No Exhibits Found with ID 999
++++++ END TEST
+
++++++ TEST CASE: 4.2.5
+  Testing: Adding to Annual Plan Out of Range data
+  Result: Invalid
+----------
+Invalid, Month Number but be between 1-12
++++++ END TEST
+
++++++ TEST CASE: 4.2.6
+  Testing: Adding to Annual Plan Out of Range data
+  Result: Invalid
+----------
+Invalid, Hall Number but be between 1-3
++++++ END TEST
+
++++++ TEST CASE: 4.2.7
+  Testing: Adding to Annual Plan valid data
+  Result: Valid
+----------
+Successfully added Exhibit 2 to Month 1 in Hall 1
++++++ END TEST
+
+
+4.3 VIEWING ANNUAL PLAN BY YEAR
++++++ TEST CASE: 4.3.1
+  Testing: Viewing Annual Plan with null Year
+  Result: Invalid
+----------
+Invalid Year, Nothing to View
++++++ END TEST
+
++++++ TEST CASE: 4.3.2
+  Testing: Viewing Annual Plan with invalid Year data type
+  Result: Invalid
+----------
+Invalid Year, Nothing to View
++++++ END TEST
+
++++++ TEST CASE: 4.3.3
+  Testing: Viewing Annual Plan with Out of Range Year
+  Result: Invalid
+----------
+Invalid Year, Nothing to View
++++++ END TEST
+
++++++ TEST CASE: 4.3.4
+  Testing: Viewing Annual Plan with non-existant Year
+  Result: Invalid
+----------
+No Annual Plan Found with Year 9999
++++++ END TEST
+
++++++ TEST CASE: 4.3.5
+  Testing: Viewing Annual Plan with valid Year
+  Result: Valid
+----------
+
+Annual Plan for 2024:
+1. January
+   Hall 1: Exhibit 1
+   Hall 2: N/A
+   Hall 3: N/A
+
+2. February
+   Hall 1: N/A
+   Hall 2: N/A
+   Hall 3: N/A
+
+3. March
+   Hall 1: N/A
+   Hall 2: N/A
+   Hall 3: N/A
+
+4. April
+   Hall 1: N/A
+   Hall 2: N/A
+   Hall 3: N/A
+
+5. May
+   Hall 1: N/A
+   Hall 2: N/A
+   Hall 3: N/A
+
+6. June
+   Hall 1: N/A
+   Hall 2: N/A
+   Hall 3: N/A
+
+7. July
+   Hall 1: N/A
+   Hall 2: N/A
+   Hall 3: N/A
+
+8. August
+   Hall 1: N/A
+   Hall 2: N/A
+   Hall 3: N/A
+
+9. September
+   Hall 1: N/A
+   Hall 2: N/A
+   Hall 3: N/A
+
+10. October
+   Hall 1: N/A
+   Hall 2: N/A
+   Hall 3: N/A
+
+11. November
+   Hall 1: N/A
+   Hall 2: N/A
+   Hall 3: N/A
+
+12. December
+   Hall 1: N/A
+   Hall 2: N/A
+   Hall 3: N/A
+
++++++ END TEST
+
+
+4.4 DELETING EXHIBITS FROM ANNUAL PLAN
++++++ TEST CASE: 4.4.1
+  Testing: Removing Exhibit from Annual Plan with null data
+  Result: Invalid
+----------
+Invalid Year, Nothing to View
++++++ END TEST
+
++++++ TEST CASE: 4.4.2
+  Testing: Removing Exhibit from Annual Plan with invalid data types
+  Result: Invalid
+----------
+Invalid Year, Nothing to View
++++++ END TEST
+
++++++ TEST CASE: 4.4.3
+  Testing: Removing Exhibit from Annual Plan with Out of Range data
+  Result: Invalid
+----------
+No Annual Plan Found with Year 9999
++++++ END TEST
+
++++++ TEST CASE: 4.4.4
+  Testing: Removing Exhibit from Annual Plan with Out of Range data
+  Result: Invalid
+----------
+Invalid, Month Number but be between 1-12
++++++ END TEST
+
++++++ TEST CASE: 4.4.5
+  Testing: Removing Exhibit from Annual Plan with Out of Range data
+  Result: Invalid
+----------
+Invalid, Hall Number but be between 1-3
++++++ END TEST
+
++++++ TEST CASE: 4.4.6
+  Testing: Removing Exhibit from Annual Plan with valid data
+  Result: Valid
+----------
+Successfully removed Exhibit at Month 1 in Hall 1
++++++ END TEST
+
+
+4.5 DELETING AN ANNUAL PLAN
++++++ TEST CASE: 4.5.1
+  Testing: Deleting Annual Plan with null Year
+  Result: Invalid
+----------
+Invalid Year
++++++ END TEST
+
++++++ TEST CASE: 4.5.2
+  Testing: Deleting Annual Plan with invalid Year data type
+  Result: Invalid
+----------
+Invalid Year
++++++ END TEST
+
++++++ TEST CASE: 4.5.3
+  Testing: Deleting Annual Plan with Out of Range Year
+  Result: Invalid
+----------
+Invalid Year
++++++ END TEST
+
++++++ TEST CASE: 4.5.4
+  Testing: Deleting Annual Plan with non-existant Year
+  Result: Invalid
+----------
+No Annual Plan Found with Year 9999
++++++ END TEST
+
++++++ TEST CASE: 4.5.5
+  Testing: Deleting Annual Plan with valid Year
+  Result: Valid
+----------
+Successfully deleted Annual Plan for year 2024
++++++ END TEST
+
