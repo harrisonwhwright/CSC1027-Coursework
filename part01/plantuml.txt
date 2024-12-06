@@ -1,30 +1,4 @@
 @startuml
-class Artifact {
-    static int nextId
-    - int id
-    - String name
-    - Type classification
-    - int engagementTime
-    --
-    + Artifact(String name, Type classification, int engagementTime)
-    + addArtifacts()
-    + viewArtifacts()
-    + viewArtifactById()
-    + viewArtifactByName()
-    + viewArtifactByPartName()
-    + viewArtifactByType()
-    + deleteArtifacts()
-    + updateArtifacts()
-    + setID(int id)
-    + setName(String name)
-    + setType(Type type)
-    + setEngagementTime(int engagementTime)
-    + getId() : int
-    + getName() : String
-    + getType() : Type
-    + getEngagementTime() : int
-    + String getDetails()
-}
 
 enum Type {
     PAINTING
@@ -34,35 +8,67 @@ enum Type {
     OTHER
 }
 
+class Artifact {
+    - int id
+    - String name
+    - Type classification
+    - int engagementTime
+    - static int nextId = 1
+    
+    + Artifact(String name, Type classification, int engagementTime)
+    + void setId()
+    + void setName(String name)
+    + void setType(Type classification)
+    + void setEngagementTime(int engagementTime)
+    + int getId()
+    + String getName()
+    + Type getType()
+    + int getEngagementTime()
+    + String getDetails()
+    + String toString()
+
+    + static void addArtifacts(String name, Type classification, int engagementTime)
+    + static boolean isArtifactListEmpty()
+    + static void viewAllArtifacts()
+    + static void viewById(int id)
+    + static void viewByName(String name)
+    + static void viewByPartName(String partName)
+    + static void viewByType(Type type)
+    + static void deleteArtifact(int id)
+    + static void updateArtifact(int id, String name, Type classification, int engagementTime)
+}
+
 class Exhibit {
     - int id
     - String name
     - ArrayList<Artifact> artifacts
     - ArrayList<String> signs
-    --
+    - static int nextId = 1
+
     + Exhibit(String name)
-    + addExhibit()
-    + viewExhibit()
-    + viewExhibitByID()
-    + viewExhibitByName()
-    + viewExhibitByPartName()
-    + viewExhibitByEngagementTime()
-    + deleteExhibit()
-    + updateExhibit()
-    + changeExhibitName()
-    + changeArtifactSignInExhibit()
-    + appendNewArtifactInExhibit()
-    + insertNewArtifactInExhibit()
-    + deleteArtifactInExhibit()
-    + addArtifactToExhibit(Artifact artifact, String signText)
-    + setID(int id)
-    + setName(String name)
-    + getID() : int
-    + getName() : String
-    + getArtifacts() : ArrayList<Artifact>
-    + getArtifactSigns() : ArrayList<String>
-    + getTotalTime() : int
-    + getDetails() : String
+    + void setId()
+    + void setName(String name)
+    + int getId()
+    + String getName()
+    + ArrayList<Artifact> getArtifacts()
+    + ArrayList<String> getArtifactSigns()
+    + int getTotalTime()
+    + String getDetails()
+    + String toString()
+
+    + static int createExhibit(String name)
+    + static void addArtifact(int exhibitId, int artifactId, String sign)
+    + static void addArtifact(int exhibitId, int artifactId, String sign, int index)
+    + static boolean isExhibitListEmpty()
+    + static void viewAllExhibits()
+    + static void viewById(int id)
+    + static void viewByName(String name)
+    + static void viewByPartName(String partName)
+    + static void viewByEngagementTime(int engagementTime)
+    + static void deleteExhibit(int id)
+    + static void changeName(int exhibitId, String name)
+    + static void changeSign(int exhibitId, int artifactId, String sign)
+    + static void deleteArtifact(int exhibitId, int artifactId)
 }
 
 class AnnualPlan {
@@ -70,40 +76,39 @@ class AnnualPlan {
     - Exhibit[] hall1
     - Exhibit[] hall2
     - Exhibit[] hall3
-    --
+    
     + AnnualPlan(int year)
-    + createHalls()
-    + addAnnualPlan(int monthNumber, int hallNumber, Exhibit exhibit)
-    + viewAnnualPlan(int year)
-    + modifyAnnualPlan(int year, int monthNumber, int hallNumber, Exhibit exhibit)
-    + removeAnnualPlan(int year)
-    + deleteAnnualPlan()
-    + setYear(int year)
-    + getYear() : int
-    + getExhibit(int year, int monthNumber, int hallNumber) : Exhibit
-    + getDetails() : String
+    + void setYear(int year)
+    + int getYear()
+    + void getExhibit(int year, int monthNumber, int hallNumber)
+    + Exhibit returnExhibit(AnnualPlan annualPlan, int monthNumber, int hallNumber)
+    + void createHalls()
+    + String getDetails()
+    + String toString()
+
+    + static boolean createAnnualPlan(int year)
+    + static void addToAnnualPlan(int year, int exhibitId, int month, int hall)
+    + static boolean isAnnualPlanListEmpty()
+    + static void listAllAnnualPlans()
+    + static void viewByYear(int year)
+    + static void deleteAnnualPlan(int year)
+    + static void removeFromAnnualPlan(int year, int month, int hall)
 }
 
 class QUBMuseum {
-    - ArrayList<Artifact> artifacts
-    - ArrayList<Exhibit> exhibits
-    - ArrayList<AnnualPlan> annualPlans
-    --
-    + main()
-    + processChoice()
-    + manageArtifacts()
-    + processArtifactChoice()
-    + processViewArtifactChoice()
-    + manageExhibits()
-    + processExhibitChoice()
-    + processViewExhibitChoice()
-    + processExhibitUpdateMenu()
-    + manageAnnualSchedule()
-    + processAnnualPlanChoice()
-    + processModifyAnnualPlanChoice()
-    + static ArrayList<Artifact> getArtifacts() : ArrayList<Artifact>
-    + static ArrayList<Exhibit> getExhibits() : ArrayList<Exhibit>
-    + static ArrayList<AnnualPlan> getAnnualPlans() : ArrayList<AnnualPlan>
+    - static ArrayList<Artifact> artifacts = new ArrayList<>()
+    - static ArrayList<Exhibit> exhibits = new ArrayList<>()
+    - static ArrayList<AnnualPlan> annualPlans = new ArrayList<>()
+    
+    + static ArrayList<Artifact> getArtifacts()
+    + static ArrayList<Exhibit> getExhibits()
+    + static ArrayList<AnnualPlan> getAnnualPlans()
+
+    - static void manageArtifacts()
+
+    - static void manageExhibits()
+
+    - static void manageAnnualSchedule()
 }
 
 Artifact "1" --> "1" Type : has type
@@ -113,4 +118,7 @@ Exhibit "1" o-- "*" Artifact : contains
 AnnualPlan "1" o-- "*" Exhibit : contains
 
 QUBMuseum "1" o-- "*" AnnualPlan : manages
+QUBMuseum "1" o-- "*" Exhibit: manages
+QUBMuseum "1" o-- "*" Artifact: manages
+
 @enduml

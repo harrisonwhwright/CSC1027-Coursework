@@ -1,8 +1,3 @@
-// change all .contains(), as this is not allowed
-// try to implement .indexOf() instead
-
-// change UML to include static, public, private, etc. details
-
 package part01;
 
 import java.util.Scanner;
@@ -12,9 +7,9 @@ public class QUBMuseum {
 	
 	static Scanner scanner = new Scanner(System.in);
 
-	private static ArrayList<Artifact> artifacts = new ArrayList<>();
-	private static ArrayList<Exhibit> exhibits = new ArrayList<>();
-	private static ArrayList<AnnualPlan> annualPlans = new ArrayList<>();
+	static ArrayList<Artifact> artifacts = new ArrayList<>();
+	static ArrayList<Exhibit> exhibits = new ArrayList<>();
+	static ArrayList<AnnualPlan> annualPlans = new ArrayList<>();
 
     public static ArrayList<Artifact> getArtifacts() {
         return artifacts;
@@ -23,10 +18,11 @@ public class QUBMuseum {
         return exhibits;
     }
     public static ArrayList<AnnualPlan> getAnnualPlans() {
-        return annualPlans;
+    	return annualPlans;
     }
 	
 	public static void main(String[] args) {
+		
 		Menu mainMenu = new Menu ("QUB Museum", Resources.mainOptions);
 		
 		int choice = 0;
@@ -42,7 +38,7 @@ public class QUBMuseum {
 		
 		scanner.close();
 	}
-
+	
 	private static boolean processChoice (int choice) {
 		boolean quit = false;
 		switch (choice) {
@@ -61,7 +57,7 @@ public class QUBMuseum {
 		return quit;
 	}
 	
-	private static void manageArtifacts() {
+	private static void manageArtifacts () {
 		System.out.println();
 		Menu artifactMenu = new Menu ("Manage Artifacts", Resources.artifactOptions);
 		
@@ -95,7 +91,7 @@ public class QUBMuseum {
 		return quit;
 	}
 	
-	private static void addArtifacts() {
+	private static void addArtifacts () {
 		System.out.println();
 		System.out.println("Add Artifact");
 		
@@ -106,7 +102,7 @@ public class QUBMuseum {
 			if (!name.isEmpty()) {
 				break;
 			} else {
-				System.out.println("Invalid Name, Name Cannot be Empty");
+				System.out.println("Invalid Name");
 			}
 		}
 		
@@ -121,91 +117,41 @@ public class QUBMuseum {
 		}
 		
 		int engagementTime;
-		while (true) {
-			System.out.print("Enter Engagement Time: ");
-			engagementTime = scanner.nextInt();
-			scanner.nextLine();
-			if (engagementTime >= 0) {
-				break;
-			} else {
-				System.out.println("Invalid Engagement Type Entered");
-			}
+        while (true) {
+            System.out.print("Enter Engagement Time: ");
+            try {
+                engagementTime = scanner.nextInt();
+                scanner.nextLine();
+                if (engagementTime >= 0) {
+                    break;
+                } else {
+                    System.out.println("Invalid Engagement Time.");
+                }
+            } catch (Exception e) {
+                System.out.println("Invalid Engagement Time");
+                scanner.nextLine();
+            }
+        }
+		
+		Artifact.addArtifacts(name, classification, engagementTime);
+	}
+
+	private static void viewArtifacts () {
+		if (Artifact.isArtifactListEmpty() == true) {
+			return;
 		}
 		
-				
-		Artifact newArtifact = new Artifact (name, classification, engagementTime);
+		Artifact.viewAllArtifacts();
 		
-		artifacts.add(newArtifact);
-		
-		System.out.println("Successfully Added Artifact");
-		System.out.println();
+		int choice = 0;
+		boolean quit = false;
+    	Menu viewArtifactChoice = new Menu ("Search Artifacts", Resources.artifactCriteria);
+		do {
+			choice = viewArtifactChoice.getUserChoice();
+			quit = processViewArtifactChoice(choice);
+		} while (!quit);
 	}
 	
-	public static void addArtifacts(Object name, Object classification, int engagementTime) {
-	    if (!(name instanceof String) || ((String) name).isEmpty()) {
-	        System.out.println("Invalid Artifact Name");
-	        System.out.println("Not Added to Artifacts");
-	        return;
-	    }
-
-	    if (!(classification instanceof Type)) {
-	        System.out.println("Invalid Type Provided, using OTHER");
-	        classification = Type.OTHER;
-	    }
-	    Type validClassification = (Type) classification;
-
-	    if (engagementTime < 0) {
-	        System.out.println("Invalid Engagement Time Entered");
-	        System.out.println("Not Added to Artifacts");
-	        return;
-	    }
-
-	    Artifact newArtifact = new Artifact((String) name, validClassification, engagementTime);
-	    artifacts.add(newArtifact);
-
-	    System.out.println("Successfully Added Artifact");
-	}
-
-
-	
-	public static void viewArtifacts() { 
-	    System.out.println();
-	    
-	    if (artifacts.size() == 0) {
-	        System.out.println("View Artifacts\nArtifact list is empty");
-	        System.out.println();
-	        return;
-	    }
-	    
-	    for (int i = 0; i < artifacts.size() - 1; i++) {
-	        for (int j = 0; j < artifacts.size() - 1 - i; j++) {
-	            if (artifacts.get(j).getName().compareTo(artifacts.get(j + 1).getName()) > 0) {
-	                Artifact temp = artifacts.get(j);
-	                artifacts.set(j, artifacts.get(j + 1));
-	                artifacts.set(j + 1, temp);
-	            }
-	        }
-	    }
-
-	    for (int i = 0; i < artifacts.size(); i++) {
-	        System.out.println(artifacts.get(i));
-	    }
-	    
-	    System.out.println("\nDo you want to search artifacts? (Yes/No)");
-	    String userInput = scanner.nextLine();
-	    if (userInput.equalsIgnoreCase("YES")) {
-	    	Menu viewArtifactChoice = new Menu ("Search Artifacts", Resources.artifactCriteria);
-			
-			int choice = 0;
-			boolean quit = false;
-			
-			do {
-				choice = viewArtifactChoice.getUserChoice();
-				quit = processViewArtifactChoice(choice);
-			} while (!quit);
-	    }
-	}
-		
 	private static boolean processViewArtifactChoice (int choice) {
 		boolean quit = false;
 		switch (choice) {
@@ -227,163 +173,165 @@ public class QUBMuseum {
 	return quit;
 	}
 	
-	private static void viewArtifactById() {
-		System.out.println("\nEnter ID of Artifact you want to see:"); 
-		int userInput = scanner.nextInt();
-		scanner.nextLine();
-		
-		boolean found = false;
-		for (int i = 0; i < artifacts.size(); i++) {
-			if (artifacts.get(i).getId() == userInput) {
-				System.out.println(artifacts.get(i));
-				found = true;
-				System.out.println();
-			}
-		}
-		if (!found) {
-			System.out.println("No Artifact Found with ID " + userInput + "\n");
-		}
-	}
-	
-	public static void viewArtifactById(int iD) {		
-		boolean found = false;
-		for (int i = 0; i < artifacts.size(); i++) {
-			if (artifacts.get(i).getId() == iD) {
-				System.out.println(artifacts.get(i));
-				found = true;
-				System.out.println();
-			}
-		}
-		if (!found) {
-			System.out.println("No Artifact Found with ID " + iD + "\n");
-		}
-	}
-	
-	private static void viewArtifactByName() {
-		System.out.println("\nEnter Name of the Artifacts you want to see:"); 
-		String userInput = scanner.nextLine();
-		
-		boolean found = false;
-		for (int i = 0; i < artifacts.size(); i++) {
-			if (artifacts.get(i).getName().equalsIgnoreCase(userInput)) {
-				System.out.println(artifacts.get(i));
-				found = true;
-			}
-		}
-	    if (!found) {
-	        System.out.println("No Artifacts Found with Name: " + userInput + "\n");
+	private static void viewArtifactById () {
+	    int id;
+	    while (true) {
+	        System.out.print("\nEnter ID of Artifact you want to see: ");
+	        try {
+	            id = scanner.nextInt();
+	            scanner.nextLine();
+	            if (id >= 1) {
+	                break;
+	            } else {
+	                System.out.println("Invalid ID");
+	            }
+	        } catch (Exception e) {
+	            System.out.println("Invalid ID");
+	            scanner.nextLine();
+	        }
 	    }
-		System.out.println();
+        Artifact.viewById(id);
 	}
 	
-	private static void viewArtifactByPartName() {
-		System.out.println("\nEnter Partially the Name of Artifacts you want to see:"); 
-		String userInput = scanner.nextLine();
-		
-		boolean found = false;
-		for (int i = 0; i < artifacts.size(); i++) {
-			if (artifacts.get(i).getName().toUpperCase().contains(userInput.toUpperCase())) {
-				System.out.println(artifacts.get(i));
-				found = true;
-			}
-		}
-	    if (!found) {
-	        System.out.println("No Artifacts Found with Name: " + userInput + "\n");
+	private static void viewArtifactByName () {
+	    String name;
+	    while (true) {
+	        System.out.print("\nEnter Name of Artifact you want to see: ");
+	        name = scanner.nextLine();
+	        if (!(name.isEmpty())) {
+	        	break;
+	        	} else {
+	        		System.out.println("Invalid Name");
+	            }
 	    }
-		System.out.println();
+	    Artifact.viewByName(name);
+	}
+
+	private static void viewArtifactByPartName () {
+	    String partName;
+	    while (true) {
+	        System.out.print("\nEnter Part Name of Artifact you want to see: ");
+	        partName = scanner.nextLine();
+	        if (!(partName.isEmpty())) {
+	        	break;
+	        	} else {
+	        		System.out.println("Invalid Part Name");
+	            }
+	    }
+	    Artifact.viewByPartName(partName);
 	}
 	
-	private static void viewArtifactByType() {
-		System.out.println("\nEnter Type of Artifact you want to see:");
-		String userInput = scanner.nextLine();
+	private static void viewArtifactByType () {
 		Type typeUserInput;
-		boolean found = false;
-		try {
-			typeUserInput = Type.valueOf(userInput.toUpperCase());
-			for (int i = 0; i < artifacts.size(); i++) {
-				if (artifacts.get(i).getType() == typeUserInput) {
-					System.out.println(artifacts.get(i));
-					found = true;
-				}
-			}
-		} catch (Exception e) {
-			System.out.println("Invalid Type Entered\n");
-		}
-	    if (!found) {
-	        System.out.println("No Artifacts Found with Type: " + userInput + "\n");
+		while (true) {
+	        System.out.print("\nEnter Type of Artifact you want to see: ");
+	        String type = scanner.nextLine();
+	        if (type.isEmpty()) {
+	            System.out.println("Invalid Type");
+	            continue;
+	        }
+	        try {
+	            typeUserInput = Type.valueOf(type.toUpperCase());
+	            break;
+	        } catch (Exception e) {
+	            System.out.println("Invalid Type");
+	        }
 	    }
-		System.out.println();
+	    Artifact.viewByType(typeUserInput);
 	}
 	
-	private static void deleteArtifacts() {
-		System.out.println();
-		System.out.println("Delete Artifacts");
-		if (artifacts.size() == 0) {
-			System.out.println("Artifact list is empty\n");
+	
+	private static void deleteArtifacts () {
+		if (Artifact.isArtifactListEmpty() == true) {
 			return;
 		}
 		
-		System.out.print("Enter Artifact ID to Delete: ");
-		int userInput = scanner.nextInt();
-		scanner.nextLine();
-		
-		boolean found = false;
-		for (int i = 0; i < artifacts.size(); i++) {
-			if (userInput == artifacts.get(i).getId()) {
-				artifacts.remove(i);
-				System.out.println("Successfully Removed Artifact");
-				found = true;
-			}
-		}
-		if (!found) {
-			System.out.println("No Artifacts Found with ID: " + userInput + "\n");
-		}
+	    int id;
+	    while (true) {
+	        System.out.print("\nEnter ID of Artifact you want to delete: ");
+	        try {
+	            id = scanner.nextInt();
+	            scanner.nextLine();
+	            if (id >= 1) {
+	                break;
+	            } else {
+	                System.out.println("Invalid ID");
+	            }
+	        } catch (Exception e) {
+	            System.out.println("Invalid ID");
+	            scanner.nextLine();
+	        }
+	    }
+        Artifact.deleteArtifact(id);
 	}
 	
-	private static void updateArtifacts() {
-		System.out.println();
-		System.out.println("Update Artifacts");
-		if (artifacts.size() == 0) {
-			System.out.println("Artifact list is empty");
-			System.out.println();
+	private static void updateArtifacts () {
+		if (Artifact.isArtifactListEmpty() == true) {
 			return;
 		}
-		System.out.print("Enter Artifact ID to Update: ");
-		int userInput = scanner.nextInt();
-		scanner.nextLine();
 		
-		boolean found = false;
-		for (int i = 0; i < artifacts.size(); i++) {
-			if (userInput == artifacts.get(i).getId()) {
-				found = true;
-				System.out.println(artifacts.get(i));
-				
-				System.out.println("Enter Artifact Name: ");
-				String name = scanner.nextLine();
-				
-				System.out.print("Enter Artifact Type: ");
-				String tempClassification = scanner.nextLine().toUpperCase();
-				Type classification;
-				try {
-					classification = Type.valueOf(tempClassification);
-				} catch (Exception e) {
-					System.out.println("Invalid type entered, using OTHER");
-					classification = Type.OTHER;
-				}
-				
-				System.out.print("Enter Engagement Time: ");
-				int engagementTime = scanner.nextInt();
-				scanner.nextLine();
-				
-				artifacts.get(i).setName(name);
-				artifacts.get(i).setType(classification);
-				artifacts.get(i).setEngagementTime(engagementTime);
-				
-			}
-		}
-		if (!found) {
-			System.out.println("No Artifact Found with ID: " + userInput);
-		}
+	    int id;
+	    while (true) {
+	        System.out.print("\nEnter ID of Artifact you want to see: ");
+	        try {
+	            id = scanner.nextInt();
+	            scanner.nextLine();
+	            if (id >= 1) {
+	                break;
+	            } else {
+	                System.out.println("Invalid ID");
+	            }
+	        } catch (Exception e) {
+	            System.out.println("Invalid ID");
+	            scanner.nextLine();
+	        }
+	    }
+	    
+	    String name;
+	    while (true) {
+	        System.out.print("\nEnter Name of Artifact you want to see: ");
+	        name = scanner.nextLine();
+	        if (!(name.isEmpty())) {
+	        	break;
+	        	} else {
+	        		System.out.println("Invalid Name");
+	            }
+	    }
+	    
+		Type typeUserInput;
+		while (true) {
+	        System.out.print("\nEnter Type of Artifact you want to see: ");
+	        String type = scanner.nextLine();
+	        if (type.isEmpty()) {
+	            System.out.println("Invalid Type");
+	            continue;
+	        }
+	        try {
+	            typeUserInput = Type.valueOf(type.toUpperCase());
+	            break;
+	        } catch (Exception e) {
+	            System.out.println("Invalid Type");
+	        }
+	    }
+	    
+		int engagementTime;
+        while (true) {
+            System.out.print("Enter Engagement Time: ");
+            try {
+                engagementTime = scanner.nextInt();
+                scanner.nextLine();
+                if (engagementTime >= 0) {
+                    break;
+                } else {
+                    System.out.println("Invalid Engagement Time.");
+                }
+            } catch (Exception e) {
+                System.out.println("Invalid Engagement Time");
+                scanner.nextLine();
+            }
+        }
+	    
+        Artifact.updateArtifact(id, name, typeUserInput, engagementTime);
 	}
 	
 	private static void manageExhibits() {
@@ -403,102 +351,154 @@ public class QUBMuseum {
 		boolean quit = false;
 		switch (choice) {
 		case 1:
-			addExhibit();
+			createExhibit();
 			break;
 		case 2:
-			viewExhibit();
+			addExhibitArtifacts();
 			break;
 		case 3:
-			deleteExhibit();
+			viewExhibit();
 			break;
 		case 4:
-			updateExhibit();
+			deleteExhibit();
 			break;
 		case 5:
+			updateExhibit();
+			break;
+		case 6:
 			quit = true;
 		}
 		return quit;
 	}
 	
-	private static void addExhibit() {
+	private static void createExhibit () {
 		System.out.println();
-		System.out.println("Add Exhibit");
+		System.out.println("Create New Exhibit");
 		
-		System.out.print("Enter Exhibit Name: ");
-		String name = scanner.nextLine();
+		String name;
+		while (true) {
+			System.out.print("Enter Exhibit Name: ");
+			name = scanner.nextLine();
+			if (!name.isEmpty()) {
+				break;
+			} else {
+				System.out.println("Invalid Name");
+			}
+		}
 		
-		Exhibit newExhibit = new Exhibit (name);
-		exhibits.add(newExhibit);
+		int exhibitId = Exhibit.createExhibit(name);
+		if (exhibitId > 0) {
+			System.out.println("\nDo you want to add an Artifact to this Exhibit? (Yes/No)");
+			String userInput = scanner.nextLine();
+			while (userInput.equalsIgnoreCase("YES")) {
+				addArtifactsToExhibit(exhibitId);
+				System.out.println("\nDo you want to add another Artifact to this Exhibit? (Yes/No)");
+				userInput = scanner.nextLine();
+			}
+		}
+	}
+	
+	private static void addExhibitArtifacts () {
+		if (Exhibit.isExhibitListEmpty() == true) {
+			return;
+		}
+		if (Artifact.isArtifactListEmpty() == true) {
+			return;
+		}
 		
-		System.out.println("\nDo you want to add an Artifact to this Exhibit? (Yes/No)");
-		String userInput = scanner.nextLine();
-		while (userInput.equalsIgnoreCase("YES")) {
-			addArtifactToExhibit(newExhibit);
+		int id;
+	    while (true) {
+	        System.out.print("\nEnter ID of Exhibit you want to add to: ");
+	        try {
+	            id = scanner.nextInt();
+	            scanner.nextLine();
+	            if (id >= 1) {
+	                break;
+	            } else {
+	                System.out.println("Invalid ID");
+	            }
+	        } catch (Exception e) {
+	            System.out.println("Invalid ID");
+	            scanner.nextLine();
+	        }
+	    }
+	    
+		boolean found = false;
+		for (int i = 0; i < QUBMuseum.exhibits.size(); i++) {
+			if (QUBMuseum.exhibits.get(i).getId() == id) {
+				found = true;
+				break;
+			}
+		}
+		if (!found) {
+			System.out.println("No Exhibit Found with ID " + id);
+			return;
+		}
+		
+	    String userInput = "YES";
+	    while (userInput.equalsIgnoreCase("YES")) {
+	    	addArtifactsToExhibit(id);
 			System.out.println("\nDo you want to add another Artifact to this Exhibit? (Yes/No)");
 			userInput = scanner.nextLine();
 		}
 	}
 	
-	private static void addArtifactToExhibit(Exhibit newExhibit) {
-		System.out.println("\nEnter ID of the Artifact you want to add to Exhibits: ");
-		int idInput = scanner.nextInt();
-		Artifact artifact = null;
-		scanner.nextLine();
-		
+	private static void addArtifactsToExhibit(int exhibitId) {
+	    int artifactId;
+	    while (true) {
+	        System.out.print("\nEnter ID of Artifact you want to Add: ");
+	        try {
+	        	artifactId = scanner.nextInt();
+	            scanner.nextLine();
+	            if (artifactId >= 1) {
+	                break;
+	            } else {
+	                System.out.println("Invalid ID");
+	            }
+	        } catch (Exception e) {
+	            System.out.println("Invalid ID");
+	            scanner.nextLine();
+	        }
+	    }
 		boolean found = false;
-		for (int i = 0; i < artifacts.size(); i++) {
-			if (artifacts.get(i).getId() == idInput) {
-				artifact = artifacts.get(i);
+		for (int i = 0; i < QUBMuseum.artifacts.size(); i++) {
+			if (QUBMuseum.artifacts.get(i).getId() == artifactId) {
 				found = true;
+				break;
 			}
 		}
-		
-		if (found) {
-			System.out.println("\nEnter Sign details of the Artifact you want to add to Exhibits: ");
-			String signInput = scanner.nextLine();
-			
-			newExhibit.addArtifact(artifact, signInput);
-		} else {
-			System.out.println("No Artifact Found with ID: " + idInput);
-		}
-	}
-	
-	private static void viewExhibit() {
-		System.out.println();
-		
-		if (exhibits.size() == 0) {
-			System.out.println("View Exhibits\nExhibits list is empty");
-			System.out.println();
+		if (!found) {
+			System.out.println("No Artifact Found with ID " + artifactId);
 			return;
 		}
 		
-		for (int i = 0; i < exhibits.size() - 1; i++) {
-	        for (int j = 0; j < exhibits.size() - 1 - i; j++) {
-	            if (exhibits.get(j).getName().compareTo(exhibits.get(j + 1).getName()) > 0) {
-	                Exhibit temp = exhibits.get(j);
-	                exhibits.set(j, exhibits.get(j + 1));
-	                exhibits.set(j + 1, temp);
+		String sign;
+	    while (true) {
+	        System.out.print("\nEnter Sign to be placed with the Artifact: ");
+	        sign = scanner.nextLine();
+	        if (!(sign.isEmpty())) {
+	        	break;
+	        	} else {
+	        		System.out.println("Invalid Sign");
 	            }
-	        }
 	    }
+		Exhibit.addArtifact(exhibitId, artifactId, sign);
+	}
+
+	private static void viewExhibit() {
+		if (Exhibit.isExhibitListEmpty() == true) {
+			return;
+		}
 		
-	    for (int i = 0; i < exhibits.size(); i++) {
-	        System.out.println(exhibits.get(i));
-	    }
-	    
-	    System.out.println("\nDo you want to search Exhibits? (Yes/No)");
-	    String userInput = scanner.nextLine();
-	    if (userInput.equalsIgnoreCase("YES")) {
-	    	Menu viewExhibitChoice = new Menu ("Search Exhibits", Resources.exhibitCriteria);
-			
-			int choice = 0;
-			boolean quit = false;
-			
-			do {
-				choice = viewExhibitChoice.getUserChoice();
-				quit = processViewExhibitChoice(choice);
-			} while (!quit);
-	    }
+		Exhibit.viewAllExhibits();
+		
+		int choice = 0;
+		boolean quit = false;
+		Menu viewExhibitChoice = new Menu ("Search Exhibits", Resources.exhibitCriteria);
+		do {
+			choice = viewExhibitChoice.getUserChoice();
+			quit = processViewExhibitChoice(choice);
+		} while (!quit);
 	}
 	
 	private static boolean processViewExhibitChoice (int choice) {
@@ -522,115 +522,125 @@ public class QUBMuseum {
 	return quit;
 	}
 	
-	private static void viewExhibitById() {
-		System.out.println("\nEnter ID of Exhibit you want to see: ");
-		int userInput = scanner.nextInt();
-		scanner.nextLine();
-		
-		boolean found = false;
-		for (int i = 0; i < exhibits.size(); i++) {
-			if (exhibits.get(i).getId() == userInput) {
-				System.out.println(exhibits.get(i));
-				found = true;
-				System.out.println();
-			}
-		}
-		if (!found) {
-			System.out.println("No Exhibit Found with ID " + userInput +"\n");
-		}
-	}
-	
-	private static void viewExhibitByName() {
-		System.out.println("\nEnter Name of Exhibit you want to see:"); 
-		String userInput = scanner.nextLine();
-		
-		boolean found = false;
-		for (int i = 0; i < exhibits.size(); i++) {
-			if (exhibits.get(i).getName().equalsIgnoreCase(userInput)) {
-				System.out.println(exhibits.get(i));
-				found = true;
-			}
-		}
-	    if (!found) {
-	        System.out.println("No Exhibit Found with Name: " + userInput + "\n");
+	private static void viewExhibitById () {
+		int id;
+		while (true) {
+	        System.out.print("\nEnter ID of Exhibit you want to see: ");
+	        try {
+	            id = scanner.nextInt();
+	            scanner.nextLine();
+	            if (id >= 1) {
+	                break;
+	            } else {
+	                System.out.println("Invalid ID");
+	            }
+	        } catch (Exception e) {
+	            System.out.println("Invalid ID");
+	            scanner.nextLine();
+	        }
 	    }
-		System.out.println();
+        Exhibit.viewById(id);
 	}
 	
-	private static void viewExhibitByPartName() {
-		System.out.println("\nEnter Partially the Name of the Exhibit you want to see:"); 
-		String userInput = scanner.nextLine();
-		
-		boolean found = false;
-		for (int i = 0; i < exhibits.size(); i++) {
-			if (exhibits.get(i).getName().toUpperCase().contains(userInput.toUpperCase())) {
-				System.out.println(exhibits.get(i));
-				found = true;
-			}
-		}
-	    if (!found) {
-	        System.out.println("No Exhibits Found with Name: " + userInput + "\n");
+	private static void viewExhibitByName () {
+	    String name;
+	    while (true) {
+	        System.out.print("\nEnter Name of Exhibit you want to see: ");
+	        name = scanner.nextLine();
+	        if (!(name.isEmpty())) {
+	        	break;
+	        	} else {
+	        		System.out.println("Invalid Name");
+	            }
 	    }
-		System.out.println();
+	    Exhibit.viewByName(name);
 	}
 	
-	private static void viewExhibitByEngagementTime() {
-		System.out.println("\nEnter the Engagement Time of the Exhibit you want to see:"); 
-		int userInput = scanner.nextInt();
-		
-		boolean found = false;
-		for (int i = 0; i < exhibits.size(); i++) {
-			if (exhibits.get(i).getTotalTime() == userInput) {
-				System.out.println(exhibits.get(i));
-				found = true;
-			}
-		}
-	    if (!found) {
-	        System.out.println("No Exhibits Found with Engagement Time of: " + userInput + "\n");
+	private static void viewExhibitByPartName () {
+	    String partName;
+	    while (true) {
+	        System.out.print("\nEnter Part Name of Exhibit you want to see: ");
+	        partName = scanner.nextLine();
+	        if (!(partName.isEmpty())) {
+	        	break;
+	        	} else {
+	        		System.out.println("Invalid Part Name");
+	            }
 	    }
-		System.out.println();
+	    Exhibit.viewByPartName(partName);
 	}
 	
-	private static void deleteExhibit() {
-		System.out.println();
-		System.out.println("Delete Exhibits");
-		if (exhibits.size() == 0) {
-			System.out.println("Exhibit list is empty\n");
+	private static void viewExhibitByEngagementTime () {
+		int engagementTime;
+		while (true) {
+	        System.out.print("\nEnter Engagement Time of Exhibit you want to see: ");
+	        try {
+	        	engagementTime = scanner.nextInt();
+	            scanner.nextLine();
+	            if (!(engagementTime < 1)) {
+	                break;
+	            } else {
+	                System.out.println("Invalid Engagement Time");
+	            }
+	        } catch (Exception e) {
+	            System.out.println("Invalid Engagement Time");
+	            scanner.nextLine();
+	        }
+	    }
+        Exhibit.viewByEngagementTime(engagementTime);
+	}
+	
+	private static void deleteExhibit () {
+		if (Exhibit.isExhibitListEmpty() == true) {
 			return;
 		}
-		System.out.print("Enter Exhibit ID to Delete: ");
-		int userInput = scanner.nextInt();
-		scanner.nextLine();
 		
-		boolean found = false;
-		for (int i = 0; i < exhibits.size(); i++) {
-			if (userInput == exhibits.get(i).getId()) {
-				exhibits.remove(i);
-				System.out.println("Successfully Removed Exhibit\n");
-				found = true;
-			}
-		}
-		if (!found) {
-			System.out.println("No Exhibit Found with ID: " + userInput + "\n");
-		}
+	    int id;
+	    while (true) {
+	        System.out.print("\nEnter ID of Exhibit you want to delete: ");
+	        try {
+	            id = scanner.nextInt();
+	            scanner.nextLine();
+	            if (id >= 1) {
+	                break;
+	            } else {
+	                System.out.println("Invalid ID");
+	            }
+	        } catch (Exception e) {
+	            System.out.println("Invalid ID");
+	            scanner.nextLine();
+	        }
+	    }
+        Exhibit.deleteExhibit(id);
 	}
 	
-	private static void updateExhibit() {
-		System.out.println();
-		System.out.println("Update Exhibits");
-		if (exhibits.size() == 0) {
-			System.out.println("Exhibit list is empty\n");
+	private static void updateExhibit () {
+		if (Exhibit.isExhibitListEmpty() == true) {
 			return;
 		}
-		System.out.print("Enter Exhibit ID to Update: ");
-		int userInput = scanner.nextInt();
-		scanner.nextLine();
+		
+		int id;
+		while (true) {
+	        System.out.print("\nEnter ID of Exhibit you want to Update: ");
+	        try {
+	            id = scanner.nextInt();
+	            scanner.nextLine();
+	            if (id >= 1) {
+	                break;
+	            } else {
+	                System.out.println("Invalid ID");
+	            }
+	        } catch (Exception e) {
+	            System.out.println("Invalid ID");
+	            scanner.nextLine();
+	        }
+	    }
 		
 		boolean found = false;
 		for (int i = 0; i < exhibits.size(); i++) {
-			if (userInput == exhibits.get(i).getId()) {
+			if (id == exhibits.get(i).getId()) {
 				found = true;
-				int idExhibit = i;
+				int exhibitId = id;
 				System.out.println(exhibits.get(i));
 				
 				Menu exhibitUpdateMenu = new Menu ("\nUpdate Exhibit", Resources.exhibitUpdate);
@@ -640,32 +650,32 @@ public class QUBMuseum {
 				
 				do {
 					choice = exhibitUpdateMenu.getUserChoice();
-					quit = processExhibitUpdateMenu(choice, idExhibit);
+					quit = processExhibitUpdateMenu(choice, exhibitId);
 				} while (!quit);
 			}
 		}
 		if (!found) {
-			System.out.println("No Exhibit Found with ID: " + userInput);
+			System.out.println("No Exhibit Found with ID: " + id);
 		}
 	}
 	
-	private static boolean processExhibitUpdateMenu (int choice, int idExhibit) {
+	private static boolean processExhibitUpdateMenu (int choice, int exhibitId) {
 		boolean quit = false;
 		switch (choice) {
 		case 1:
-			changeExhibitName(idExhibit);
+			changeExhibitName(exhibitId);
 			break;
 		case 2:
-			changeArtifactSignInExhibit(idExhibit);
+			changeArtifactSignInExhibit(exhibitId);
 			break;
 		case 3:
-			appendNewArtifactInExhibit(idExhibit);
+			appendNewArtifactInExhibit(exhibitId);
 			break;
 		case 4:
-			insertNewArtifactInExhibit(idExhibit);
+			insertNewArtifactInExhibit(exhibitId);
 			break;
 		case 5:
-			deleteArtifactInExhibit(idExhibit);
+			deleteArtifactInExhibit(exhibitId);
 			break;
 		case 6:
 			quit = true;
@@ -673,130 +683,148 @@ public class QUBMuseum {
 		return quit;
 	}
 	
-	private static void changeExhibitName(int idExhibit) {
-		System.out.println("Change Exhibit Name, Currently: " + exhibits.get(idExhibit).getName());
-		System.out.println("Enter New Exhibit Name: ");
-		String name = scanner.nextLine();
-		exhibits.get(idExhibit).setName(name);
-		System.out.println(exhibits.get(idExhibit));
-	}
-	
-	private static void changeArtifactSignInExhibit(int idExhibit) {
-	    System.out.println("Change Artifact Sign");
-	    System.out.println(exhibits.get(idExhibit));
-
-	    System.out.print("Enter Artifact Name to Update its Sign: ");
-	    String userInput = scanner.nextLine();
-
-	    boolean found = false;
-	    for (int i = 0; i < exhibits.get(idExhibit).getArtifacts().size(); i++) {
-	        Artifact artifact = exhibits.get(idExhibit).getArtifacts().get(i);
-
-	        if (artifact.getName().equalsIgnoreCase(userInput)) {
-	            found = true;
-
-	            System.out.print("Enter the New Sign for this Artifact: ");
-	            String newSign = scanner.nextLine();
-
-	            exhibits.get(idExhibit).getArtifactSigns().set(i, newSign);
-	            System.out.println(exhibits.get(idExhibit));
-
-	            System.out.println("Successfully updated the sign for artifact: " + artifact.getName());
-	            break;
-	        }
-	    }
-
-	    if (!found) {
-	        System.out.println("No Artifact within this Exhibit Found with Name: " + userInput + "\n");
-	    }
-	}
-	
-	private static void appendNewArtifactInExhibit(int idExhibit) {
-		System.out.println("\nEnter ID of the Artifact you want to add to Exhibits: ");
-		int idInput = scanner.nextInt();
-		Artifact artifact = null;
-		scanner.nextLine();
-		
-		boolean found = false;
-		for (int i = 0; i < artifacts.size(); i++) {
-			if (artifacts.get(i).getId() == idInput) {
-				artifact = artifacts.get(i);
-				found = true;
+	private static void changeExhibitName (int exhibitId) {
+		System.out.println("Change Exhibit Name, Currently: " + exhibits.get(exhibitId).getName());
+		String name;
+		while (true) {
+			System.out.print("Enter Artifact Name: ");
+			name = scanner.nextLine();
+			if (!name.isEmpty()) {
+				break;
+			} else {
+				System.out.println("Invalid Name");
 			}
 		}
-		
-		if (found) {
-			System.out.println("\nEnter Sign details of the Artifact you want to add to Exhibits: ");
-			String signInput = scanner.nextLine();
-			
-			exhibits.get(idExhibit).addArtifact(artifact, signInput);
-			System.out.println(exhibits.get(idExhibit));
-		} else {
-			System.out.println("No Artifact Found with ID: " + idInput);
-		}
+		Exhibit.changeName(exhibitId, name);
 	}
 	
-	private static void insertNewArtifactInExhibit(int idExhibit) {
-		System.out.println("\nEnter ID of the Artifact you want to add to Exhibits: ");
-		int idInput = scanner.nextInt();
-		Artifact artifact = null;
-		scanner.nextLine();
-		
-		boolean found = false;
-		for (int i = 0; i < artifacts.size(); i++) {
-			if (artifacts.get(i).getId() == idInput) {
-				artifact = artifacts.get(i);
-				found = true;
-			}
-		}
-		
-		if (found) {
-			System.out.println("\nEnter Sign details of the Artifact you want to add to Exhibits: ");
-			String signInput = scanner.nextLine();
-			
-			System.out.println("\n Enter the Position you want the Artifact to be inserted at: ");
-			int positionInput = scanner.nextInt();
-			int indexInput = positionInput - 1;
-			scanner.nextLine();
-			
-			exhibits.get(idExhibit).addArtifact(artifact, signInput, indexInput);
-			System.out.println(exhibits.get(idExhibit));
-			
-		} else {
-			System.out.println("No Artifact Found with ID: " + idInput);
-		}
-	}
-	
-	private static void deleteArtifactInExhibit(int idExhibit) {
-	    System.out.println("Delete Artifact from Exhibit");
-	    System.out.println(exhibits.get(idExhibit));
+	private static void changeArtifactSignInExhibit (int exhibitId) {
+		System.out.println("Exhibit Currently looks like this: ");
+		Exhibit.viewById(exhibitId);
 
-	    System.out.print("Enter Artifact Name to Delete: ");
-	    String userInput = scanner.nextLine();
-
-	    boolean found = false;
-	    for (int i = 0; i < exhibits.get(idExhibit).getArtifacts().size(); i++) {
-	        Artifact artifact = exhibits.get(idExhibit).getArtifacts().get(i);
-
-	        if (artifact.getName().equalsIgnoreCase(userInput)) {
-	            found = true;
-
-	            exhibits.get(idExhibit).getArtifacts().remove(i);
-	            exhibits.get(idExhibit).getArtifactSigns().remove(i);
-	            
-	            System.out.println(exhibits.get(idExhibit));
-
-	            System.out.println("Successfully deleted the artifact: " + artifact.getName());
-	            break;
+		int artifactId;
+		while (true) {
+	        System.out.print("\nEnter ID of Artifact you want to Update: ");
+	        try {
+	        	artifactId = scanner.nextInt();
+	            scanner.nextLine();
+	            if (artifactId >= 1) {
+	                break;
+	            } else {
+	                System.out.println("Invalid Artifact ID");
+	            }
+	        } catch (Exception e) {
+	            System.out.println("Invalid Artifact ID");
+	            scanner.nextLine();
 	        }
 	    }
-
-	    if (!found) {
-	        System.out.println("No Artifact within this Exhibit Found with Name: " + userInput + "\n");
-	    }
+		
+		String sign;
+		while (true) {
+			System.out.print("Enter New Artifact Sign: ");
+			sign = scanner.nextLine();
+			if (!sign.isEmpty()) {
+				break;
+			} else {
+				System.out.println("Invalid Sign");
+			}
+		}
+		Exhibit.changeSign(exhibitId, artifactId, sign);
 	}
 	
-	private static void manageAnnualSchedule() {
+	private static void appendNewArtifactInExhibit (int exhibitId) {
+		addExhibitArtifacts();
+	}
+	
+	private static void insertNewArtifactInExhibit (int exhibitId) {
+	    int artifactId;
+	    while (true) {
+	        System.out.print("\nEnter ID of Artifact you want to Add: ");
+	        try {
+	        	artifactId = scanner.nextInt();
+	            scanner.nextLine();
+	            if (artifactId >= 1) {
+	                break;
+	            } else {
+	                System.out.println("Invalid ID");
+	            }
+	        } catch (Exception e) {
+	            System.out.println("Invalid ID");
+	            scanner.nextLine();
+	        }
+	    }
+		boolean found = false;
+		for (int i = 0; i < QUBMuseum.artifacts.size(); i++) {
+			if (QUBMuseum.artifacts.get(i).getId() == artifactId) {
+				found = true;
+				break;
+			}
+		}
+		if (!found) {
+			System.out.println("No Artifact Found with ID " + artifactId);
+			return;
+		}
+		
+		String sign;
+	    while (true) {
+	        System.out.print("\nEnter Sign to be placed with the Artifact: ");
+	        sign = scanner.nextLine();
+	        if (!(sign.isEmpty())) {
+	        	break;
+	        	} else {
+	        		System.out.println("Invalid Sign");
+	            }
+	    }
+	    
+	    int positionInput;
+	    int index;
+	    while (true) {
+	        System.out.print("\nEnter the Position you want the Artifact to be inserted at: ");
+	        try {
+	        	positionInput = scanner.nextInt();
+	            scanner.nextLine();
+	            index = positionInput - 1;
+	            break;
+	        } catch (Exception e) {
+	            System.out.println("Invalid ID");
+	            scanner.nextLine();
+	        }
+	    }
+		Exhibit.addArtifact(exhibitId, artifactId, sign, index);
+	}
+	
+	private static void deleteArtifactInExhibit (int exhibitId) {
+	    int artifactId;
+	    while (true) {
+	        System.out.print("\nEnter ID of Artifact you want to Delete: ");
+	        try {
+	        	artifactId = scanner.nextInt();
+	            scanner.nextLine();
+	            if (artifactId >= 1) {
+	                break;
+	            } else {
+	                System.out.println("Invalid ID");
+	            }
+	        } catch (Exception e) {
+	            System.out.println("Invalid ID");
+	            scanner.nextLine();
+	        }
+	    }
+		boolean found = false;
+		for (int i = 0; i < QUBMuseum.artifacts.size(); i++) {
+			if (QUBMuseum.artifacts.get(i).getId() == artifactId) {
+				found = true;
+				break;
+			}
+		}
+		if (!found) {
+			System.out.println("No Artifact Found with ID " + artifactId);
+			return;
+		}
+		Exhibit.deleteArtifact(exhibitId, artifactId);
+	}
+	
+	private static void manageAnnualSchedule () {
 		System.out.println();
 		Menu annualPlanMenu = new Menu ("Manage Annual Plan", Resources.annualPlanOptions);
 		
@@ -813,7 +841,7 @@ public class QUBMuseum {
 		boolean quit = false;
 		switch (choice) {
 		case 1:
-			addAnnualPlan();
+			createAnnualPlan();
 			break;
 		case 2:
 			viewAnnualPlan();
@@ -826,127 +854,187 @@ public class QUBMuseum {
 		}
 		return quit;
 	}
+	
+	private static void createAnnualPlan () {
+	    int year;
+	    while (true) {
+	        System.out.print("\nEnter Year of the Annual Plan you want to Create: ");
+	        try {
+	        	year = scanner.nextInt();
+	            scanner.nextLine();
+	            if (year >= 1) {
+	                break;
+	            } else {
+	                System.out.println("Invalid Year");
+	            }
+	        } catch (Exception e) {
+	            System.out.println("Invalid Year");
+	            scanner.nextLine();
+	        }
+	    }
+	    
+	    if (AnnualPlan.createAnnualPlan(year) == true) {
+	    	System.out.println("\nDo you want to add an Exhibit to this Annual Plan? (Yes/No)");
+			String userInput = scanner.nextLine();
+			while (userInput.equalsIgnoreCase("YES")) {
+				addToAnnualPlan(year);
+				System.out.println("\nDo you want to add another Exhibit to this Annual Plan? (Yes/No)");
+				userInput = scanner.nextLine();
+			}
+	    }
+	}
+	
+	private static void addToAnnualPlan(int year) {
+	    int exhibitId;
+	    while (true) {
+	        System.out.print("\nEnter ID of Exhibit you want to add: ");
+	        try {
+	            exhibitId = scanner.nextInt();
+	            scanner.nextLine();
+	            if (exhibitId >= 1) {
+	                break;
+	            } else {
+	                System.out.println("Invalid Exhibit ID");
+	            }
+	        } catch (Exception e) {
+	            System.out.println("Invalid Exhibit ID");
+	            scanner.nextLine();
+	        }
+	    }
 
-	private static void addAnnualPlan() {
-		System.out.println();
-		System.out.print("Enter Year to Create Plan: ");
-		int year = scanner.nextInt();
-		scanner.nextLine();
+	    Exhibit selectedExhibit = null;
+	    for (int i = 0; i < QUBMuseum.exhibits.size(); i++) {
+	        if (QUBMuseum.exhibits.get(i).getId() == exhibitId) {
+	            selectedExhibit = QUBMuseum.exhibits.get(i);
+	            break;
+	        }
+	    }
+
+	    if (selectedExhibit == null) {
+	        System.out.println("No Exhibits Found with ID " + exhibitId);
+	        return;
+	    }
+
+	    int monthNumber;
+	    while (true) {
+	        System.out.print("\nEnter which Month it should take place (1-12): ");
+	        try {
+	            monthNumber = scanner.nextInt();
+	            scanner.nextLine();
+	            if (monthNumber >= 1 && monthNumber <= 12) {
+	                break;
+	            } else {
+	                System.out.println("Invalid Month Number");
+	            }
+	        } catch (Exception e) {
+	            System.out.println("Invalid Month Number");
+	            scanner.nextLine();
+	        }
+	    }
+
+	    int hallNumber;
+	    while (true) {
+	        System.out.print("\nEnter which Hall it should take place (1-3): ");
+	        try {
+	            hallNumber = scanner.nextInt();
+	            scanner.nextLine();
+	            if (hallNumber >= 1 && hallNumber <= 3) {
+	                break;
+	            } else {
+	                System.out.println("Invalid Hall Number");
+	            }
+	        } catch (Exception e) {
+	            System.out.println("Invalid Hall Number");
+	            scanner.nextLine();
+	        }
+	    }
+
+	    AnnualPlan selectedPlan = null;
+	    for (int i = 0; i < QUBMuseum.annualPlans.size(); i++) {
+	        if (QUBMuseum.annualPlans.get(i).getYear() == year) {
+	            selectedPlan = QUBMuseum.annualPlans.get(i);
+	            break;
+	        }
+	    }
+
+	    if (selectedPlan == null) {
+	        System.out.println("No Annual Plan Found for Year " + year);
+	        return;
+	    }
+
+	    Exhibit existingExhibit = selectedPlan.returnExhibit(selectedPlan, monthNumber, hallNumber);
+	    if (existingExhibit == null) {
+	    	AnnualPlan.addToAnnualPlan(year, exhibitId, monthNumber, hallNumber);
+	        System.out.println("Exhibit added successfully");
+	    } else {
+	        System.out.println("An Exhibit already exists: " + existingExhibit.getName());
+	        System.out.println("Do you want to overwrite? (Yes/No)");
+	        String userInput = scanner.nextLine();
+	        if (userInput.equalsIgnoreCase("YES")) {
+	        	AnnualPlan.addToAnnualPlan(year, exhibitId, monthNumber, hallNumber);
+	            System.out.println("Overwritten successfully");
+	        } else {
+	            System.out.println("Data not Overwritten");
+	        }
+	    }
+	}
+
+	
+	private static void viewAnnualPlan () {
+		AnnualPlan.listAllAnnualPlans();
 		
-		if (year < 0) {
-			System.out.println("Please Enter A Valid Year\n");
+	    int year;
+	    while (true) {
+	        System.out.print("\nEnter Year of the Annual Plan you want to View in detail: ");
+	        try {
+	        	year = scanner.nextInt();
+	            scanner.nextLine();
+	            if (year >= 1) {
+	                break;
+	            } else {
+	                System.out.println("Invalid Year");
+	            }
+	        } catch (Exception e) {
+	            System.out.println("Invalid Year");
+	            scanner.nextLine();
+	        }
+	    }
+	    AnnualPlan.viewByYear(year);
+	}
+	
+	private static void modifyAnnualPlan () {
+		if (AnnualPlan.isAnnualPlanListEmpty() == true) {
 			return;
 		}
 		
-		AnnualPlan newAnnualPlan = new AnnualPlan (year);
-		annualPlans.add(newAnnualPlan);
-
-		String userInput;
-		do {
-			System.out.println("Would you like to Add to this Annual Plan now? (Yes/No)");
-			userInput = scanner.nextLine();
-			if (userInput.equalsIgnoreCase("YES")) {
-				addToAnnualPlan(newAnnualPlan);
-			}
-		} while (userInput.equalsIgnoreCase("YES"));
-	}
-		
-	private static void addToAnnualPlan(AnnualPlan annualPlan) {
-		System.out.println("Enter ID of Exhibit you want to Add: ");
-		int exhibitId = scanner.nextInt();
-		scanner.nextLine();
+		int year;
+		while (true) {
+	        System.out.print("\nEnter Year of Annual Plan you want to Update: ");
+	        try {
+	        	year = scanner.nextInt();
+	            scanner.nextLine();
+	            if (year >= 1) {
+	                break;
+	            } else {
+	                System.out.println("Invalid Year");
+	            }
+	        } catch (Exception e) {
+	            System.out.println("Invalid Year");
+	            scanner.nextLine();
+	        }
+	    }
 		
 		boolean found = false;
-		Exhibit exhibit = null;
-		
-		for (int i = 0; i < exhibits.size(); i++) {
-			if (exhibits.get(i).getId() == exhibitId) {
+		for (int i = 0; i < annualPlans.size(); i++) {
+			if (annualPlans.get(i).getYear() == year) {
 				found = true;
-				exhibit = exhibits.get(i);
-				break;
 			}
 		}
 		if (!found) {
-			System.out.println("No Exhibit Found with ID " + exhibitId + "\n");
+			System.out.println("No Annual Plan Found with Year " + year);
 			return;
 		}
 		
-		int hallNumber = -1;
-		while (hallNumber < 1 || hallNumber > 3) {
-			System.out.println("Which Hall (1-3) should it take place: ");
-			hallNumber = scanner.nextInt();
-			scanner.nextLine();
-			if (hallNumber < 1 || hallNumber > 3) {
-				System.out.println("Please Enter a Valid Hall Number (1-3)");
-			}
-		}
-
-		int monthNumber = -1;
-		while (monthNumber < 1 || monthNumber > 12) {
-			System.out.println("What Month (1-12) should it take place:  ");
-			monthNumber = scanner.nextInt();
-			scanner.nextLine();
-			if (monthNumber < 1 || monthNumber > 12) {
-				System.out.println("Please Enter a Valid Month Number (1-12)");
-			}
-		}
-		
-		if (exhibit != null) {
-			if (annualPlan.getExhibit(monthNumber, hallNumber) == null) {
-				annualPlan.addToAnnualPlan(monthNumber, hallNumber, exhibit);
-			} else {
-				System.out.println("An Exhibit Already is Here, Do You Want to Overwrite? (Yes/No)");
-				String userInput = scanner.nextLine();
-				 if (userInput.equalsIgnoreCase("YES")) {
-					annualPlan.addToAnnualPlan(monthNumber, hallNumber, exhibit);
-					System.out.println("Overwritten Successfully");
-				 } else {
-					 System.out.println("Data not Overwritten");
-				 }
-			}
-		}
-	}
-	
-	private static void viewAnnualPlan() {
-		if (annualPlans.size() == 0) {
-			System.out.println("No Years Available\n");
-			return;
-		}
-		System.out.println("List of Years Available: ");
-	    for (int i = 0; i < annualPlans.size(); i++) {
-	        System.out.print(annualPlans.get(i).getYear() + " ");
-	    }
-	    System.out.println("\nEnter the Year you Would Like to See");
-	    int userInput = scanner.nextInt();
-	    scanner.nextLine();
-	    for (int i = 0; i < annualPlans.size(); i++) {
-	        if (annualPlans.get(i).getYear() == userInput) {
-	        	System.out.println(annualPlans.get(i));
-	        	return;
-	        }
-	    }
-	}
-	
-	private static void modifyAnnualPlan() {
-		
-	    System.out.println("\nEnter the Year you Would Like to Modify");
-	    int userInput = scanner.nextInt();
-	    scanner.nextLine();
-	    
-	    boolean found = false;
-	    AnnualPlan annualPlan = null;
-	    for (int i = 0; i < annualPlans.size(); i++) {
-	        if (annualPlans.get(i).getYear() == userInput) {
-	        	System.out.println(annualPlans.get(i));
-	        	annualPlan = annualPlans.get(i);
-	        	found = true;
-	        }
-	    }
-	    if (!found) {
-	    	System.out.println("Year Entered Not Found");
-	    	return;
-	    }
-	    
 		Menu modifyAnnualPlanChoice = new Menu ("Modify an Annual Plan", Resources.annualPlanModify);
 		
 		int choice = 0;
@@ -954,72 +1042,64 @@ public class QUBMuseum {
 		
 		do {
 			choice = modifyAnnualPlanChoice.getUserChoice();
-			quit = processModifyAnnualPlanChoice(annualPlan, choice);
+			quit = processModifyAnnualPlanChoice(year, choice);
 		} while (!quit);
 	}
 	
-	private static boolean processModifyAnnualPlanChoice (AnnualPlan annualPlan, int choice) {
+	private static boolean processModifyAnnualPlanChoice (int year, int choice) {
 		boolean quit = false;
 		switch (choice) {
 		case 1:
-			String userInput;
-			do {
-				addToAnnualPlan(annualPlan);
-				
-				System.out.println("Would You Like to Add More to this Annual Plan (Yes/No)");
-				userInput = scanner.nextLine();
-				if (userInput.equalsIgnoreCase("YES")) {
-					addToAnnualPlan(annualPlan);
-				}
-			} while (userInput.equalsIgnoreCase("YES"));
+			addToAnnualPlan(year);
 			break;
 		case 2:
-			removeFromAnnualPlan(annualPlan);
+			removeFromAnnualPlan(year);
 			break;
 		case 3:
-			deleteAnnualPlan(annualPlan);
+			AnnualPlan.deleteAnnualPlan(year);
 			break;
 		case 4:
 			quit = true;
 		}
 	return quit;
 	}
+	
+	private static void removeFromAnnualPlan (int year) {
+	    int monthNumber;
+	    while (true) {
+	        System.out.print("\nEnter which Month to remove Exhibit (1-12): ");
+	        try {
+	            monthNumber = scanner.nextInt();
+	            scanner.nextLine();
+	            if (monthNumber >= 1 && monthNumber <= 12) {
+	                break;
+	            } else {
+	                System.out.println("Invalid Month Number");
+	            }
+	        } catch (Exception e) {
+	            System.out.println("Invalid Month Number");
+	            scanner.nextLine();
+	        }
+	    }
 
-	private static void removeFromAnnualPlan (AnnualPlan annualPlan) {
-		int monthNumber = -1;
-		while (monthNumber < 1 || monthNumber > 12) {
-			System.out.println("What Month (1-12) to Edit:  ");
-			monthNumber = scanner.nextInt();
-			scanner.nextLine();
-			if (monthNumber < 1 || monthNumber > 12) {
-				System.out.println("Please Enter a Valid Month Number (1-12)");
-			}
-		}
-		
-		int hallNumber = -1;
-		while (hallNumber < 1 || hallNumber > 3) {
-			System.out.println("Which Hall (1-3) to Remove Exhibit: ");
-			hallNumber = scanner.nextInt();
-			scanner.nextLine();
-			if (hallNumber < 1 || hallNumber > 3) {
-				System.out.println("Please Enter a Valid Hall Number (1-3)");
-			}
-		}
-		
-		if (annualPlan.getExhibit(monthNumber, hallNumber) == null) {
-			System.out.println("This is Already Empty, Nothing to Delete\n");
-		} else {
-			annualPlan.addToAnnualPlan(monthNumber, hallNumber, null);
-			System.out.println("Successfully removed Exhibit from Hall " + hallNumber + " in " + Resources.months[monthNumber-1] + "\n");
-		}
+	    int hallNumber;
+	    while (true) {
+	        System.out.print("\nEnter which Hall to remove Exhibit (1-3): ");
+	        try {
+	            hallNumber = scanner.nextInt();
+	            scanner.nextLine();
+	            if (hallNumber >= 1 && hallNumber <= 3) {
+	                break;
+	            } else {
+	                System.out.println("Invalid Hall Number");
+	            }
+	        } catch (Exception e) {
+	            System.out.println("Invalid Hall Number");
+	            scanner.nextLine();
+	        }
+	    }
+	    
+	    AnnualPlan.removeFromAnnualPlan(year, monthNumber, hallNumber);
 	}
 	
-	private static void deleteAnnualPlan (AnnualPlan annualPlan) {
-		for (int i = 0; i < annualPlans.size(); i++) {
-			if (annualPlan.getYear() == annualPlans.get(i).getYear()) {
-				annualPlans.remove(i);
-				System.out.println("Successfully Removed " + annualPlan.getYear() + "\n");
-			}
-		}
-	}
 }
